@@ -1,14 +1,14 @@
 ---
 title: Design library
-order: 9
+order: 7
 dates: Sept – Oct 2026
 summary: My library of design systems, so every project starts from tested tokens, fonts and icons.
 role: I built it. This site uses one of its systems, Vienna Voxel.
-stack: [Python, JavaScript, TypeScript, MCP, OAuth]
+languages: [Python, JavaScript, TypeScript]
+stack: [MCP, OAuth]
 figure:
   value: "17"
   label: design systems, all WCAG AA in both themes
-note: The code is private.
 ---
 
 - 15 references, 31 self-hosted font families and 17,148 icons.

@@ -43,8 +43,8 @@ Warsaw · Jan 2026 – present
 ## Publications
 
 1. Ciuba K, Piotrowska A, **Chaudhury D**, Dehingia B, et al., Pękowska A (2025). Molecular signature of primate astrocytes reveals pathways and regulatory changes contributing to human brain evolution. *Cell Stem Cell* 32(3). [doi:10.1016/j.stem.2024.12.011](https://doi.org/10.1016/j.stem.2024.12.011)
-2. Dehingia B, Milewska-Puchała M, et al., **Chaudhury D**, et al., Pękowska A (2025). RNA-binding proteins mediate the maturation of chromatin topology during differentiation. *Nature Cell Biology* 27(9).
-3. Kuliński TM, Gewartowska O, et al., **Chaudhury D**, et al., Dziembowski A (2026). Multiple myeloma-associated DIS3 mutations drive AID-dependent IGH translocations. *Nature Communications*.
+2. Dehingia B, Milewska-Puchała M, et al., **Chaudhury D**, et al., Pękowska A (2025). RNA-binding proteins mediate the maturation of chromatin topology during differentiation. *Nature Cell Biology* 27(9). [doi:10.1038/s41556-025-01735-5](https://doi.org/10.1038/s41556-025-01735-5)
+3. Kuliński TM, Gewartowska O, et al., **Chaudhury D**, et al., Dziembowski A (2026). Multiple myeloma-associated DIS3 mutations drive AID-dependent IGH translocations. *Nature Communications*. [doi:10.1038/s41467-026-70386-3](https://doi.org/10.1038/s41467-026-70386-3)
 
 ## Conference presentations
 

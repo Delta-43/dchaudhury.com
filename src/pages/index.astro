@@ -4,6 +4,7 @@ import VoxelField from '../components/VoxelField.astro';
 import VoxelPortrait from '../components/VoxelPortrait.astro';
 import Icon from '../components/Icon.astro';
 import { site } from '../lib/site';
+import portrait from '../data/voxel-portrait.json';
 
 const proof = [
   {
@@ -13,17 +14,27 @@ const proof = [
     link: 'See the work',
   },
   {
-    value: '3',
-    text: 'co-authored papers, in Cell Stem Cell, Nature Cell Biology and Nature Communications.',
+    value: '5',
+    text: 'years of research programming: pipelines and databases for multi-terabyte sequencing data.',
     href: '/research',
     link: 'See the research',
   },
   {
-    value: '12',
-    text: 'participants at the Guided Coding Workshop, which I designed and taught at 42 Warsaw.',
-    href: '/teaching',
-    link: 'See teaching and writing',
+    value: '25',
+    text: 'Docker containers in 16 Docker Compose stacks, on the Ubuntu server I run at home.',
+    href: '/work#homelab',
+    link: 'See the homelab',
   },
+];
+
+const languages = ['Python', 'TypeScript', 'JavaScript', 'SQL', 'C', 'R', 'Bash'];
+
+const tools = [
+  { label: 'Backend', items: ['FastAPI', 'REST', 'OpenAPI', 'Next.js', 'JWT and JWKS', 'SQLite'] },
+  { label: 'Frontend', items: ['React 19', 'Vite', 'Recharts', 'HTML', 'CSS'] },
+  { label: 'Data', items: ['PostgreSQL', 'PostGIS', 'Supabase', 'ETL pipelines', 'pandas', 'Snakemake'] },
+  { label: 'AI', items: ['Tool-calling agents', 'Retrieval-augmented generation', 'MCP servers', 'Ollama', 'n8n'] },
+  { label: 'Infrastructure', items: ['Docker', 'Linux', 'Caddy', 'Cloudflare Tunnel', 'Tailscale', 'GitHub Actions'] },
 ];
 
 const jsonLd = {
@@ -31,54 +42,99 @@ const jsonLd = {
   '@type': 'Person',
   name: site.name,
   url: site.url,
-  jobTitle: 'Software developer',
+  jobTitle: 'Independent Software Developer',
+  knowsAbout: [...languages, 'Data engineering', 'Web development'],
   address: { '@type': 'PostalAddress', addressLocality: 'Warsaw', addressCountry: 'PL' },
   sameAs: [site.profiles.linkedin, site.profiles.github, site.profiles.orcid],
 };
 ---
 
 <Base
-  description="Debadeep Chaudhury builds software for messy, real data: from multi-terabyte sequencing datasets to city data APIs. Software, data, bioinformatics, teaching and writing, in Warsaw."
+  description="Debadeep Chaudhury builds web apps and data pipelines in Warsaw, in Python, TypeScript, SQL and more. Software development and data engineering."
   jsonLd={jsonLd}
 >
-  <section class="hero wrap" aria-labelledby="name">
-    <div class="hero-text">
-      <h1 id="name">Debadeep<br />Chaudhury</h1>
-      <p class="tagline">Software, data and bioinformatics<br />Teaching and writing in Warsaw</p>
-      <p class="lead">I build software for messy, real data: from multi-terabyte sequencing datasets to city data APIs.</p>
-      <ul class="proof">
-        {
-          proof.map((item) => (
-            <li>
-              <span class="value">{item.value}</span>
-              <div>
-                <p>{item.text}</p>{' '}
-                <a href={item.href}>
-                  {item.link}
-                  <Icon name="arrow-right" />
-                </a>
-              </div>
-            </li>
-          ))
-        }
-      </ul>
-      <div class="actions">
-        <a class="button primary" href="/cv">Read my CV</a>
-        <a class="button" href="/contact">Get in touch</a>
+  <div class="stage">
+    <canvas class="voxel-sky" aria-hidden="true"></canvas>
+    <section class="hero wrap" aria-labelledby="name">
+      <div class="hero-text">
+        <h1 id="name">Debadeep<br />Chaudhury</h1>
+        <p class="tagline">Software and data engineering<br />Web apps for real-world data</p>
+        <p class="lead">I build web apps and data pipelines that answer real questions with real data.</p>
+        <ul class="proof">
+          {
+            proof.map((item) => (
+              <li>
+                <span class="value">{item.value}</span>
+                <div>
+                  <p>{item.text}</p>{' '}
+                  <a href={item.href}>
+                    {item.link}
+                    <Icon name="arrow-right" />
+                  </a>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+        <div class="actions">
+          <a class="button primary" href="/cv">Read my CV</a>
+          <a class="button" href="/contact">Get in touch</a>
+        </div>
       </div>
-    </div>
-    <VoxelPortrait class="portrait" />
-  </section>
+      <VoxelPortrait class="portrait" />
+    </section>
+  </div>
 
   <VoxelField rows={8} />
+
+  <div class="wrap skills">
+    <section class="section" aria-labelledby="skills">
+      <h2 id="skills">Programming languages and tools</h2>
+      <div class="skills-body">
+        <ul class="languages" aria-label="Programming languages">
+          {languages.map((language) => <li>{language}</li>)}
+        </ul>
+        <p class="muted">Also C++ and Java, from training.</p>
+        <dl class="tools">
+          {
+            tools.map((group) => (
+              <div>
+                <dt class="label muted">{group.label}</dt>
+                <dd>{group.items.join(', ')}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+    </section>
+  </div>
 </Base>
 
-<style>
+<script>
+  import { mountVoxelHero } from '../scripts/voxel-hero';
+
+  const stage = document.querySelector<HTMLElement>('.stage');
+  if (stage) mountVoxelHero(stage);
+</script>
+
+<style define:vars={{ cols: portrait.cols }}>
+  /* The field of voxels sits behind the hero and runs edge to edge. */
+  .stage {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .voxel-sky {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+  }
+
   .hero {
     display: grid;
     gap: var(--space-6);
     padding-block-start: var(--space-6);
-    isolation: isolate;
   }
 
   .hero-text {
@@ -110,7 +166,7 @@ const jsonLd = {
     font-size: var(--text-lg);
     line-height: var(--text-lg-line);
     letter-spacing: var(--text-lg-tracking);
-    max-inline-size: 34ch;
+    max-inline-size: 30ch;
     margin-block-start: var(--space-2);
   }
 
@@ -164,6 +220,7 @@ const jsonLd = {
     min-block-size: 44px;
     padding-inline: var(--space-5);
     border: 1px solid var(--color-text);
+    background: var(--color-bg);
     text-decoration: none;
     transition:
       background-color var(--duration-fast) ease,
@@ -188,20 +245,64 @@ const jsonLd = {
     }
 
     .button.primary:hover {
-      background: transparent;
+      background: var(--color-bg);
       color: var(--color-text);
     }
   }
 
-  /* The portrait stands on the voxel band and runs to the page edge.
-     It's an element inside VoxelPortrait, so it needs :global. */
+  /* The portrait stands on the voxel band and runs to the page edge. Its width
+     is a whole number of pixels per voxel, so the canvas copy stays crisp. */
   .hero :global(.portrait) {
-    justify-self: end;
+    --pitch: 3px;
+    justify-self: start;
     align-self: end;
-    inline-size: min(100%, 26rem);
+    inline-size: calc(var(--cols) * var(--pitch));
+    max-inline-size: none;
     block-size: auto;
-    margin-inline-end: calc(-1 * var(--gutter));
-    z-index: -1;
+    margin-inline-start: calc(-1 * var(--gutter));
+  }
+
+  /* Programming languages: the biggest type on the page after the name. */
+  .languages {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-5);
+    font-size: var(--text-2xl);
+    line-height: var(--text-2xl-line);
+    letter-spacing: var(--text-2xl-tracking);
+  }
+
+  .skills {
+    margin-block-start: var(--space-7);
+  }
+
+  .skills-body {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .tools {
+    margin: var(--space-4) 0 0;
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .tools div {
+    display: grid;
+    align-content: start;
+    gap: var(--space-1);
+  }
+
+  .tools dd {
+    margin: 0;
+  }
+
+  @media (min-width: 30rem) {
+    .hero :global(.portrait) {
+      --pitch: 4px;
+    }
   }
 
   @media (min-width: 48rem) {
@@ -209,7 +310,10 @@ const jsonLd = {
       font-size: var(--text-xl);
       line-height: var(--text-xl-line);
       letter-spacing: var(--text-xl-tracking);
-      max-inline-size: 30ch;
+    }
+
+    .tools {
+      grid-template-columns: repeat(2, 1fr);
     }
   }
 
@@ -219,9 +323,26 @@ const jsonLd = {
       column-gap: var(--space-6);
     }
 
+    .hero-text {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
     .hero :global(.portrait) {
-      inline-size: calc(100% + var(--gutter));
-      max-inline-size: 46rem;
+      grid-column: 1;
+      grid-row: 1;
+    }
+  }
+
+  @media (min-width: 76rem) {
+    .hero :global(.portrait) {
+      --pitch: 5px;
+    }
+  }
+
+  @media (min-width: 100rem) {
+    .hero :global(.portrait) {
+      --pitch: 6px;
     }
   }
 </style>

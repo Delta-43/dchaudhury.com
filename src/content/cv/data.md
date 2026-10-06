@@ -48,7 +48,8 @@ Bengaluru · Aug 2020 – Jul 2021
 
 ## Skills
 
-- **Data:** SQL, PostgreSQL, PostGIS, Supabase, SQLite, MongoDB, ETL pipelines, scheduled sync jobs, caching
+- **Programming languages:** Python, SQL, TypeScript, JavaScript, R, C, Bash; C++ and Java (training)
+- **Data:** PostgreSQL, PostGIS, Supabase, SQLite, MongoDB, ETL pipelines, scheduled sync jobs, caching
 - **Analysis:** Python (pandas), R, Bioconductor, statistical modelling, clustering
 - **Pipelines:** Snakemake, Bash, Docker, GitHub Actions
 - **APIs:** FastAPI, REST, OpenAPI

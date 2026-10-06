@@ -16,10 +16,9 @@ const projects = defineCollection({
     event: z.string().optional(),
     summary: z.string(),
     role: z.string(),
+    languages: z.array(z.string()).default([]),
     stack: z.array(z.string()),
     figure: z.object({ value: z.string(), label: z.string() }).optional(),
-    links: z.array(link).default([]),
-    note: z.string().optional(),
   }),
 });
 

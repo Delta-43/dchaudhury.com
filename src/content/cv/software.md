@@ -56,7 +56,7 @@ Warsaw · Sept 2021 – Dec 2025
 
 ## Skills
 
-- **Languages:** Python, TypeScript, JavaScript, C, R, SQL, Bash
+- **Programming languages:** Python, TypeScript, JavaScript, SQL, C, R, Bash; C++ and Java (training)
 - **Backend:** FastAPI, REST, OpenAPI, Next.js, JWT and JWKS authentication, SQLite
 - **Frontend:** React 19, Vite, Recharts, HTML and CSS
 - **Data:** PostgreSQL, PostGIS, Supabase (row-level security, migrations), ETL pipelines

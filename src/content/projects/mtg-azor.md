@@ -1,14 +1,14 @@
 ---
 title: MTG Azor
-order: 4
+order: 5
 dates: Jul 2026 – present
 summary: "A self-hosted AI agent that answers Magic: The Gathering rules questions and checks every citation against its sources."
 role: My own project. I designed and built it.
-stack: [TypeScript, Python, Docker]
-links:
-  - label: Reply server code
-    href: https://github.com/Delta-43/mtg-rules-agent
-note: The main app is private. The reply server is public.
+languages: [TypeScript, Python]
+stack: [Docker, retrieval-augmented generation, tool calling]
+figure:
+  value: 186 of 195
+  label: commits are mine
 ---
 
 - The agent chooses between the Comprehensive Rules (retrieval-augmented generation), live Scryfall card data, official rulings and web search. Then it verifies every citation against the tool results.
