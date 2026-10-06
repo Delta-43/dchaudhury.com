@@ -25,8 +25,14 @@
       "id": "cloud",
       "name": "Cloud server",
       "description": "A virtual private server.",
-      "publicKey": null,
-      "services": []
+      "publicKey": "YCPEUVN4Z98IPua+hifFru3XXqaqV5QrIAlcKC+frfI=",
+      "services": [
+        { "id": "proxy", "label": "Reverse proxy and tunnels" },
+        { "id": "azor", "label": "MTG Azor rules agent" },
+        { "id": "azor-discord", "label": "MTG Azor Discord bot" },
+        { "id": "agents", "label": "AI agent memory and search" },
+        { "id": "monitoring", "label": "Monitoring" }
+      ]
     }
   ]
 }
