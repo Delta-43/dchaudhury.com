@@ -1,0 +1,269 @@
+---
+import Base from '../layouts/Base.astro';
+import catalogue from '../data/homelab.json';
+---
+
+<Base
+  title="Homelab"
+  description="Live status of Debadeep Chaudhury's two servers and the services they run, updated every 10 minutes."
+>
+  <div class="page-head wrap">
+    <h1>Homelab</h1>
+    <p class="lead">
+      My two servers and the services they run, updated every {catalogue.reportEveryMinutes} minutes. Names, addresses and
+      links stay private.
+    </p>
+  </div>
+
+  <div class="wrap" data-homelab data-stale-after={catalogue.staleAfterMinutes}>
+    {
+      catalogue.servers.map((server) => (
+        <section class="section server" aria-labelledby={`server-${server.id}`} data-server={server.id}>
+          <div class="server-head">
+            <h2 id={`server-${server.id}`}>{server.name}</h2>
+            <p class="muted">{server.description}</p>
+            <p class="state" data-server-state>
+              <span class="marker" aria-hidden="true" />
+              <span data-server-text>Checking…</span>
+            </p>
+          </div>
+          <div class="server-body">
+            <figure class="containers" hidden data-containers>
+              <div class="voxels" aria-hidden="true" data-voxels />
+              <figcaption class="label muted" data-containers-text />
+            </figure>
+            {server.services.length > 0 ? (
+              <ul class="services">
+                {server.services.map((service) => (
+                  <li data-service={service.id}>
+                    <span class="marker" aria-hidden="true" />
+                    <span>{service.label}</span>
+                    <span class="label muted" data-service-state>
+                      Checking
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p class="muted">No services listed yet.</p>
+            )}
+          </div>
+        </section>
+      ))
+    }
+
+    <noscript>
+      <p class="muted">The live status needs JavaScript. The list above shows what each server runs.</p>
+    </noscript>
+
+    <section class="section" aria-labelledby="how">
+      <h2 id="how">How this works</h2>
+      <div class="prose">
+        <p>
+          Every {catalogue.reportEveryMinutes} minutes, a small script on each server reads which Docker containers are
+          running. It reduces that to the services listed on this page, signs the summary with the server's own key, and
+          sends it here. The page shows the latest summary.
+        </p>
+        <p>
+          Container names, addresses and links never leave the servers. A server that hasn't reported for{' '}
+          {catalogue.staleAfterMinutes} minutes shows as not reporting.
+        </p>
+      </div>
+    </section>
+  </div>
+</Base>
+
+<script>
+  type ServerStatus = {
+    id: string;
+    reportedAt: number | null;
+    running: number | null;
+    services: Record<string, boolean>;
+  };
+
+  const root = document.querySelector<HTMLElement>('[data-homelab]');
+  const staleAfter = Number(root?.dataset.staleAfter ?? 25) * 60 * 1000;
+  const relative = new Intl.RelativeTimeFormat('en-GB', { numeric: 'auto' });
+
+  function ago(timestamp: number): string {
+    const minutes = Math.round((Date.now() - timestamp) / 60000);
+    if (minutes < 60) return relative.format(-minutes, 'minute');
+    const hours = Math.round(minutes / 60);
+    if (hours < 48) return relative.format(-hours, 'hour');
+    return relative.format(-Math.round(hours / 24), 'day');
+  }
+
+  function setState(element: Element | null, state: 'up' | 'down' | 'unknown') {
+    if (element instanceof HTMLElement) element.dataset.state = state;
+  }
+
+  function render(server: ServerStatus) {
+    const section = root?.querySelector<HTMLElement>(`[data-server="${server.id}"]`);
+    if (!section) return;
+    const stateLine = section.querySelector('[data-server-state]');
+    const text = section.querySelector('[data-server-text]');
+    const fresh = server.reportedAt !== null && Date.now() - server.reportedAt < staleAfter;
+
+    if (server.reportedAt === null) {
+      setState(stateLine, 'unknown');
+      if (text) text.textContent = 'No report yet';
+    } else if (!fresh) {
+      setState(stateLine, 'down');
+      if (text) text.textContent = `Not reporting · last report ${ago(server.reportedAt)}`;
+    } else {
+      setState(stateLine, 'up');
+      if (text) text.textContent = `Online · updated ${ago(server.reportedAt)}`;
+    }
+
+    const containers = section.querySelector<HTMLElement>('[data-containers]');
+    const voxels = section.querySelector<HTMLElement>('[data-voxels]');
+    const containersText = section.querySelector('[data-containers-text]');
+    if (containers && voxels && containersText) {
+      if (fresh && server.running !== null) {
+        containers.hidden = false;
+        voxels.replaceChildren(...Array.from({ length: server.running }, () => document.createElement('i')));
+        containersText.textContent = `${server.running} containers running, one voxel each`;
+      } else {
+        containers.hidden = true;
+      }
+    }
+
+    for (const item of section.querySelectorAll<HTMLElement>('[data-service]')) {
+      const up = server.services[item.dataset.service ?? ''];
+      const label = item.querySelector('[data-service-state]');
+      if (!fresh || up === undefined) {
+        setState(item, 'unknown');
+        if (label) label.textContent = 'Unknown';
+      } else {
+        setState(item, up ? 'up' : 'down');
+        if (label) label.textContent = up ? 'Running' : 'Down';
+      }
+    }
+  }
+
+  async function refresh() {
+    try {
+      const response = await fetch('/api/homelab', { cache: 'no-store' });
+      if (!response.ok) throw new Error(String(response.status));
+      const data: { servers: ServerStatus[] } = await response.json();
+      data.servers.forEach(render);
+    } catch {
+      for (const text of root?.querySelectorAll('[data-server-text]') ?? []) {
+        text.textContent = "Couldn't load the status. Try again later.";
+      }
+    }
+  }
+
+  if (root) {
+    refresh();
+    let timer = window.setInterval(refresh, 60000);
+    document.addEventListener('visibilitychange', () => {
+      window.clearInterval(timer);
+      if (document.visibilityState === 'visible') {
+        refresh();
+        timer = window.setInterval(refresh, 60000);
+      }
+    });
+  }
+</script>
+
+<style>
+  .server-head {
+    display: grid;
+    gap: var(--space-2);
+    align-content: start;
+  }
+
+  .server-head h2 {
+    font-size: var(--text-xl);
+    line-height: var(--text-xl-line);
+    letter-spacing: var(--text-xl-tracking);
+  }
+
+  .state {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-block-start: var(--space-2);
+  }
+
+  .server-body {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  /* A status marker is a single voxel: lime for running, red for down,
+     grey for unknown. The words next to it carry the same information. */
+  .marker {
+    flex: none;
+    inline-size: var(--voxel);
+    block-size: var(--voxel);
+    background: var(--color-border);
+  }
+
+  [data-state='up'] > .marker {
+    background: var(--color-voxel-5);
+  }
+
+  [data-state='down'] > .marker {
+    background: var(--color-voxel-4);
+  }
+
+  .containers {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .voxels {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1px;
+  }
+
+  .voxels :global(i) {
+    inline-size: var(--voxel);
+    block-size: var(--voxel);
+    background: var(--color-voxel-2);
+  }
+
+  .voxels :global(i:nth-child(5n + 1)) {
+    background: var(--color-voxel-1);
+  }
+
+  .voxels :global(i:nth-child(5n + 3)) {
+    background: var(--color-voxel-3);
+  }
+
+  .voxels :global(i:nth-child(5n + 4)) {
+    background: var(--color-voxel-4);
+  }
+
+  .voxels :global(i:nth-child(5n)) {
+    background: var(--color-voxel-5);
+  }
+
+  .services {
+    list-style: none;
+    padding: 0;
+    display: grid;
+  }
+
+  .services li {
+    display: grid;
+    grid-template-columns: var(--voxel) 1fr auto;
+    align-items: center;
+    gap: var(--space-3);
+    padding-block: var(--space-2);
+    border-block-end: 1px solid var(--color-border);
+  }
+
+  .services li:last-child {
+    border-block-end: 0;
+  }
+
+  .prose {
+    display: grid;
+    gap: var(--space-4);
+    max-inline-size: var(--measure);
+  }
+</style>

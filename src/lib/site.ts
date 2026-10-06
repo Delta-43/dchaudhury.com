@@ -15,6 +15,7 @@ export const site = {
 
 export const nav = [
   { href: '/work', label: 'Work' },
+  { href: '/homelab', label: 'Homelab' },
   { href: '/cv', label: 'CV' },
   { href: '/research', label: 'Research' },
   { href: '/teaching', label: 'Teaching and writing' },
