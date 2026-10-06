@@ -45,6 +45,10 @@ type Voxel = {
 };
 
 const easeOut = (t: number) => 1 - (1 - t) ** 4;
+// Per-frame rates are tuned for 60 Hz; this turns them into per-step rates,
+// so drift and easing feel the same on 120 Hz screens.
+const FRAME = 1000 / 60;
+const lerpFactor = (perFrame: number, steps: number) => 1 - (1 - perFrame) ** steps;
 const random = (min: number, max: number) => min + Math.random() * (max - min);
 
 export function mountVoxelHero(stage: HTMLElement): void {
@@ -107,6 +111,7 @@ export function mountVoxelHero(stage: HTMLElement): void {
   let assembled = false;
   let frame = 0;
   let running = false;
+  let lastTime = 0;
 
   function readColours() {
     const style = getComputedStyle(document.documentElement);
@@ -168,7 +173,8 @@ export function mountVoxelHero(stage: HTMLElement): void {
     });
   }
 
-  function drawField() {
+  function drawField(steps: number) {
+    const pull = lerpFactor(1 / EASE, steps);
     const pointerX = pointer ? pointer.x - width / 2 : 0;
     const pointerY = pointer ? pointer.y - height / 2 : 0;
     for (let i = 0; i < particles.length; i++) {
@@ -176,11 +182,11 @@ export function mountVoxelHero(stage: HTMLElement): void {
       // Fade towards the edges, then towards the particle's own target.
       const edge = Math.min(p.x + p.tx, width - p.x - p.tx, p.y + p.ty, height - p.y - p.ty);
       const edgeFactor = Math.min(1, Math.max(0, edge / 20));
-      p.alpha = Math.min(p.targetAlpha, p.alpha + 0.02);
-      p.x += p.dx;
-      p.y += p.dy;
-      p.tx += (pointerX / (STATICITY / p.magnetism) - p.tx) / EASE;
-      p.ty += (pointerY / (STATICITY / p.magnetism) - p.ty) / EASE;
+      p.alpha = Math.min(p.targetAlpha, p.alpha + 0.02 * steps);
+      p.x += p.dx * steps;
+      p.y += p.dy * steps;
+      p.tx += (pointerX / (STATICITY / p.magnetism) - p.tx) * pull;
+      p.ty += (pointerY / (STATICITY / p.magnetism) - p.ty) * pull;
       if (p.x < -p.size || p.x > width + p.size || p.y < -p.size || p.y > height + p.size) {
         particles[i] = newParticle();
         continue;
@@ -213,7 +219,8 @@ export function mountVoxelHero(stage: HTMLElement): void {
     if (done) assembled = true;
   }
 
-  function updateRepel() {
+  function updateRepel(steps: number) {
+    const settle = lerpFactor(0.18, steps);
     if (pointer) {
       const minCol = Math.max(0, Math.floor((pointer.x - originX - REPEL_RADIUS) / pitch));
       const maxCol = Math.min(cols - 1, Math.ceil((pointer.x - originX + REPEL_RADIUS) / pitch));
@@ -241,8 +248,8 @@ export function mountVoxelHero(stage: HTMLElement): void {
           targetY = (ddy / distance) * push;
         }
       }
-      v.ox += (targetX - v.ox) * 0.18;
-      v.oy += (targetY - v.oy) * 0.18;
+      v.ox += (targetX - v.ox) * settle;
+      v.oy += (targetY - v.oy) * settle;
       if (targetX === 0 && targetY === 0 && Math.abs(v.ox) < 0.3 && Math.abs(v.oy) < 0.3) {
         v.ox = 0;
         v.oy = 0;
@@ -262,12 +269,14 @@ export function mountVoxelHero(stage: HTMLElement): void {
   }
 
   function tick(now: number) {
+    const steps = lastTime ? Math.min(3, (now - lastTime) / FRAME) : 1;
+    lastTime = now;
     ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
     ctx.clearRect(0, 0, width, height);
-    drawField();
+    drawField(steps);
     if (assemblyStart !== null) {
       if (assembled) {
-        updateRepel();
+        updateRepel(steps);
         drawPortrait();
       } else {
         drawAssembly(now);
@@ -279,6 +288,7 @@ export function mountVoxelHero(stage: HTMLElement): void {
   function start() {
     if (running) return;
     running = true;
+    lastTime = 0;
     frame = requestAnimationFrame(tick);
   }
 

@@ -16,7 +16,8 @@ function formatRange(from: Date, to: Date): string {
   return `${start} – ${dateFormat.format(to)} ${yearFormat.format(to)}`;
 }
 
-const easeOut = (t: number) => 1 - (1 - t) ** 3;
+// The same curve as the portrait's fly-in on the home page.
+const easeOut = (t: number) => 1 - (1 - t) ** 4;
 
 export function mountVoxelField(root: HTMLElement): void {
   const canvas = root.querySelector('canvas');
