@@ -1,0 +1,22 @@
+# Working and assistant files: kept locally, never published
+AGENTS.md
+AGENTS.*.md
+CLAUDE.md
+PLAN.md
+MEMORY.md
+TODO.md
+.claude/
+_source/
+.env
+.env.*
+
+# Build output and dependencies
+node_modules/
+dist/
+.astro/
+.wrangler/
+
+# Editors and OS
+.DS_Store
+.vscode/
+*.log
