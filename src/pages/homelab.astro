@@ -28,9 +28,11 @@ import catalogue from '../data/homelab.json';
             </p>
           </div>
           <div class="server-body">
-            <figure class="containers" hidden data-containers>
+            <figure class="containers" data-containers>
               <div class="voxels" aria-hidden="true" data-voxels />
-              <figcaption class="label muted" data-containers-text />
+              <figcaption class="label muted" data-containers-text>
+                Checking containers
+              </figcaption>
             </figure>
             {server.services.length > 0 ? (
               <ul class="services">
@@ -97,6 +99,22 @@ import catalogue from '../data/homelab.json';
     if (element instanceof HTMLElement) element.dataset.state = state;
   }
 
+  // One voxel per running container. The first fill fades the voxels in one
+  // after another; later refreshes only add or remove the difference, still.
+  function setVoxels(row: HTMLElement, count: number) {
+    const first = !row.dataset.filled;
+    row.dataset.filled = 'true';
+    while (row.children.length > count) row.lastElementChild?.remove();
+    for (let i = row.children.length; i < count; i++) {
+      const voxel = document.createElement('i');
+      if (first) {
+        voxel.className = 'enter';
+        voxel.style.setProperty('--i', String(i));
+      }
+      row.append(voxel);
+    }
+  }
+
   function render(server: ServerStatus) {
     const section = root?.querySelector<HTMLElement>(`[data-server="${server.id}"]`);
     if (!section) return;
@@ -115,17 +133,13 @@ import catalogue from '../data/homelab.json';
       if (text) text.textContent = `Online · updated ${ago(server.reportedAt)}`;
     }
 
-    const containers = section.querySelector<HTMLElement>('[data-containers]');
     const voxels = section.querySelector<HTMLElement>('[data-voxels]');
     const containersText = section.querySelector('[data-containers-text]');
-    if (containers && voxels && containersText) {
-      if (fresh && server.running !== null) {
-        containers.hidden = false;
-        voxels.replaceChildren(...Array.from({ length: server.running }, () => document.createElement('i')));
-        containersText.textContent = `${server.running} containers running, one voxel each`;
-      } else {
-        containers.hidden = true;
-      }
+    if (voxels && containersText) {
+      const count = fresh && server.running !== null ? server.running : 0;
+      setVoxels(voxels, count);
+      containersText.textContent =
+        count > 0 ? `${count} containers running, one voxel each` : 'No container count';
     }
 
     for (const item of section.querySelectorAll<HTMLElement>('[data-service]')) {
@@ -150,6 +164,11 @@ import catalogue from '../data/homelab.json';
     } catch {
       for (const text of root?.querySelectorAll('[data-server-text]') ?? []) {
         text.textContent = "Couldn't load the status. Try again later.";
+      }
+      for (const item of root?.querySelectorAll<HTMLElement>('[data-service]') ?? []) {
+        setState(item, 'unknown');
+        const label = item.querySelector('[data-service-state]');
+        if (label) label.textContent = 'Unknown';
       }
     }
   }
@@ -218,6 +237,20 @@ import catalogue from '../data/homelab.json';
     display: flex;
     flex-wrap: wrap;
     gap: 1px;
+    min-block-size: var(--voxel);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .voxels :global(i.enter) {
+      animation: voxel-in 200ms var(--ease-out) backwards;
+      animation-delay: calc(var(--i) * 30ms);
+    }
+  }
+
+  @keyframes voxel-in {
+    from {
+      opacity: 0;
+    }
   }
 
   .voxels :global(i) {
