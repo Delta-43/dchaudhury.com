@@ -4,6 +4,7 @@ order: 3
 title: Bioinformatician
 description: CV of Debadeep Chaudhury, bioinformatician in Warsaw. 5 years of research programming on multi-terabyte sequencing data, comparative primate genomics and 3 co-authored papers.
 summary: 5 years of research programming as a bioinformatician. I built pipelines and databases for multi-terabyte sequencing data from human, chimpanzee and macaque cells, and I co-authored 3 papers, in Cell Stem Cell, Nature Cell Biology and Nature Communications.
+pdf: DChaudhury_CV_Bioinformatics.pdf
 ---
 
 ## Experience

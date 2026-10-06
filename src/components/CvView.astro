@@ -47,7 +47,7 @@ const { Content } = await render(entry);
           entry.data.pdf && (
             <a class="download" href={`/cv/${entry.data.pdf}`} download>
               <Icon name="download" />
-              Download PDF
+              Download PDF<span class="visually-hidden">: {entry.data.label} CV</span>
             </a>
           )
         }

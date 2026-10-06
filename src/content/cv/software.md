@@ -4,6 +4,7 @@ order: 1
 title: Software developer
 description: CV of Debadeep Chaudhury, software developer in Warsaw. AI agents, data APIs and full-stack web apps, plus 5 years of research programming.
 summary: I build software for messy, real data. In 2026 I managed three hackathon teams (3rd place, 1st in track, top 10 in track) and built my own AI agents, data APIs and a home server. Before that, I spent 5 years on research programming as a bioinformatician.
+pdf: DChaudhury_CV_Software.pdf
 ---
 
 ## Experience

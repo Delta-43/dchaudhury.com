@@ -4,6 +4,7 @@ order: 5
 title: English language specialist
 description: CV of Debadeep Chaudhury, English language specialist in Warsaw. C2 English (EF SET), plain-English technical writing, scientific co-authorship and published fiction.
 summary: English at C2 (EF SET 75/100). I write plain-English technical documents, co-authored 3 scientific papers, and have published an ebook and poetry.
+pdf: DChaudhury_CV_Writing.pdf
 ---
 
 ## Writing and editing
