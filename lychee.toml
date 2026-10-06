@@ -12,4 +12,6 @@ accept = ["200..=299", "429"]
 exclude = [
   # LinkedIn answers every automated request with status 999.
   '^https://(www\.)?linkedin\.com/',
+  # Google Scholar answers requests from CI servers with 403.
+  '^https://scholar\.google\.com/',
 ]

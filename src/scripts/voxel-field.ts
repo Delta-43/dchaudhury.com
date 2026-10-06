@@ -45,7 +45,7 @@ export function mountVoxelField(root: HTMLElement): void {
   function readColours() {
     const style = getComputedStyle(root);
     colours = Array.from({ length: LAYERS }, (_, i) => style.getPropertyValue(`--color-voxel-${i + 1}`).trim());
-    baseline = style.getPropertyValue('--color-border').trim();
+    baseline = style.getPropertyValue('--color-voxel-empty').trim();
   }
 
   function measure() {
