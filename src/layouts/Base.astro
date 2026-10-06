@@ -1,4 +1,6 @@
 ---
+import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
 import '../styles/global.css';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
@@ -20,7 +22,10 @@ const path = Astro.url.pathname
   .replace(/\/index$/, '/')
   .replace(/(.)\/$/, '$1');
 const canonicalUrl = new URL(canonical ?? path, site.url).href;
-const ogImage = new URL('/og.png', site.url).href;
+// Link previews cache the image by URL, so the URL carries a hash of the file:
+// a new image gets a new URL and is fetched again.
+const ogVersion = createHash('sha256').update(readFileSync('public/og.png')).digest('hex').slice(0, 8);
+const ogImage = new URL(`/og.png?v=${ogVersion}`, site.url).href;
 ---
 
 <!doctype html>
@@ -30,6 +35,7 @@ const ogImage = new URL('/og.png', site.url).href;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
+    <meta name="author" content={site.name} />
     {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonicalUrl} />}
     <link rel="icon" href="/favicon.ico" sizes="48x48" />
     <link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192" />
