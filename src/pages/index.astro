@@ -23,7 +23,7 @@ const proof = [
     value: '25',
     text: 'Docker containers in 16 Docker Compose stacks, on the Ubuntu server I run at home.',
     href: '/homelab',
-    link: 'See it live',
+    link: 'See the homelab live',
   },
 ];
 
@@ -57,7 +57,7 @@ const jsonLd = {
   <div class="stage">
     <canvas class="voxel-sky" aria-hidden="true"></canvas>
     <section class="hero wrap" aria-labelledby="name">
-      <div class="hero-text">
+      <div class="hero-text" data-voxel-keepout>
         <h1 id="name">Debadeep<br />Chaudhury</h1>
         <p class="tagline">Software and data engineering<br />Web apps for real-world data</p>
         <p class="lead">I build web apps and data pipelines that answer real questions with real data.</p>
@@ -142,11 +142,13 @@ const jsonLd = {
     display: grid;
     gap: var(--space-4);
     align-content: start;
+    min-inline-size: 0;
     padding-block-end: var(--space-5);
   }
 
+  /* 15vw keeps CHAUDHURY inside a 320px screen; above that the token wins. */
   h1 {
-    font-size: var(--text-4xl);
+    font-size: min(var(--text-4xl), 15vw);
     line-height: var(--text-4xl-line);
     letter-spacing: var(--text-4xl-tracking);
     text-transform: uppercase;
@@ -254,7 +256,7 @@ const jsonLd = {
   /* The portrait stands on the voxel band and runs to the page edge. Its width
      is a whole number of pixels per voxel, so the canvas copy stays crisp. */
   .hero :global(.portrait) {
-    --pitch: 3px;
+    --pitch: 2px;
     justify-self: start;
     align-self: end;
     inline-size: calc(var(--cols) * var(--pitch));
@@ -300,6 +302,13 @@ const jsonLd = {
     margin: 0;
   }
 
+  /* 110 voxels at 3px need 330px; below 360px wide that no longer fits. */
+  @media (min-width: 22.5rem) {
+    .hero :global(.portrait) {
+      --pitch: 3px;
+    }
+  }
+
   @media (min-width: 30rem) {
     .hero :global(.portrait) {
       --pitch: 4px;
@@ -307,9 +316,10 @@ const jsonLd = {
   }
 
   @media (min-width: 48rem) {
+    /* Larger size, but body line-height: the lead can wrap to three lines. */
     .lead {
       font-size: var(--text-xl);
-      line-height: var(--text-xl-line);
+      line-height: var(--text-lg-line);
       letter-spacing: var(--text-xl-tracking);
     }
 

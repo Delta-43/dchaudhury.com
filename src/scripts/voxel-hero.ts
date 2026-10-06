@@ -103,6 +103,9 @@ export function mountVoxelHero(stage: HTMLElement): void {
   let fieldColours: string[] = [];
   let particles: Particle[] = [];
   let pointer: { x: number; y: number } | null = null;
+  // Field voxels fade out near the text, so they never sit behind it.
+  let keepout: { left: number; top: number; right: number; bottom: number } | null = null;
+  const KEEPOUT_FADE = 24;
   const active = new Set<Voxel>();
   const cache = document.createElement('canvas');
 
@@ -152,6 +155,12 @@ export function mountVoxelHero(stage: HTMLElement): void {
     originX = Math.round(svgRect.left - stageRect.left);
     originY = Math.round(svgRect.bottom - stageRect.top - rows * pitch);
 
+    const text = stage.querySelector<HTMLElement>('[data-voxel-keepout]');
+    if (text) {
+      const r = text.getBoundingClientRect();
+      keepout = { left: r.left - stageRect.left, top: r.top - stageRect.top, right: r.right - stageRect.left, bottom: r.bottom - stageRect.top };
+    }
+
     const target = Math.min(220, Math.max(40, Math.round((width * height) / FIELD_DENSITY)));
     particles = particles.slice(0, target).map((p) => ({ ...p, x: Math.min(p.x, width), y: Math.min(p.y, height) }));
     while (particles.length < target) particles.push(newParticle());
@@ -191,7 +200,15 @@ export function mountVoxelHero(stage: HTMLElement): void {
         particles[i] = newParticle();
         continue;
       }
-      ctx.globalAlpha = p.alpha * edgeFactor;
+      let keepoutFactor = 1;
+      if (keepout) {
+        const px = p.x + p.tx;
+        const py = p.y + p.ty;
+        const dx = Math.max(keepout.left - px, 0, px - keepout.right);
+        const dy = Math.max(keepout.top - py, 0, py - keepout.bottom);
+        keepoutFactor = Math.min(1, Math.hypot(dx, dy) / KEEPOUT_FADE);
+      }
+      ctx.globalAlpha = p.alpha * edgeFactor * keepoutFactor;
       ctx.fillStyle = fieldColours[p.colour];
       ctx.fillRect(Math.round(p.x + p.tx), Math.round(p.y + p.ty), p.size, p.size);
     }

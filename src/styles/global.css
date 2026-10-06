@@ -19,6 +19,8 @@ body {
   font-size: var(--text-base);
   line-height: var(--text-base-line);
   font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   min-block-size: 100dvh;
   display: flex;
   flex-direction: column;

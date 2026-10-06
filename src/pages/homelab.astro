@@ -199,6 +199,12 @@ import catalogue from '../data/homelab.json';
     letter-spacing: var(--text-xl-tracking);
   }
 
+  [data-server-text],
+  [data-containers-text],
+  [data-service-state] {
+    font-variant-numeric: tabular-nums;
+  }
+
   .state {
     display: flex;
     align-items: center;
@@ -253,26 +259,15 @@ import catalogue from '../data/homelab.json';
     }
   }
 
+  /* Navy and blue only: red and lime mean down and running on this page. */
   .voxels :global(i) {
     inline-size: var(--voxel);
     block-size: var(--voxel);
     background: var(--color-voxel-2);
   }
 
-  .voxels :global(i:nth-child(5n + 1)) {
+  .voxels :global(i:nth-child(odd)) {
     background: var(--color-voxel-1);
-  }
-
-  .voxels :global(i:nth-child(5n + 3)) {
-    background: var(--color-voxel-3);
-  }
-
-  .voxels :global(i:nth-child(5n + 4)) {
-    background: var(--color-voxel-4);
-  }
-
-  .voxels :global(i:nth-child(5n)) {
-    background: var(--color-voxel-5);
   }
 
   .services {
