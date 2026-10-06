@@ -15,7 +15,8 @@
     "astro": "astro",
     "contributions": "node scripts/fetch-contributions.mjs",
     "check:pages": "node scripts/check-pages.mjs",
-    "check:lighthouse": "lhci autorun"
+    "check:lighthouse": "lhci autorun",
+    "og": "node scripts/og-image.mjs"
   },
   "dependencies": {
     "astro": "^7.3.5"
