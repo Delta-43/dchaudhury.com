@@ -1,10 +1,28 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "dchaudhury-com",
+  "main": "worker/index.ts",
   "compatibility_date": "2026-10-01",
   "assets": {
     "directory": "./dist",
+    "binding": "ASSETS",
     "html_handling": "drop-trailing-slash",
-    "not_found_handling": "404-page"
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/api/*"]
+  },
+  "kv_namespaces": [
+    {
+      "binding": "HOMELAB",
+      "id": "e58b0281913d4e70ad42d24c00727e9b"
+    }
+  ],
+  // Pull-request previews get their own, empty store, never production data.
+  "previews": {
+    "kv_namespaces": [
+      {
+        "binding": "HOMELAB",
+        "id": "f7739647ddad481cb39014dd343957cc"
+      }
+    ]
   }
 }

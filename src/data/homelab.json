@@ -1,0 +1,32 @@
+{
+  "reportEveryMinutes": 10,
+  "staleAfterMinutes": 25,
+  "servers": [
+    {
+      "id": "home",
+      "name": "Home server",
+      "description": "Ubuntu 26.04 LTS, at home.",
+      "publicKey": "yGy0AzXyYvE9uKLT7LsL05Ibqd6eVDUaU7dDE4ecsjI=",
+      "services": [
+        { "id": "proxy", "label": "Reverse proxy and tunnels" },
+        { "id": "git", "label": "Git hosting" },
+        { "id": "automation", "label": "Workflow automation" },
+        { "id": "storage", "label": "Object storage" },
+        { "id": "search", "label": "Private search and MCP servers" },
+        { "id": "notes", "label": "Notes sync" },
+        { "id": "monitoring", "label": "Monitoring and logs" },
+        { "id": "home-automation", "label": "Home automation" },
+        { "id": "library", "label": "E-book library" },
+        { "id": "tools", "label": "PDF and bookmark tools" },
+        { "id": "playdate", "label": "Playdate build environment" }
+      ]
+    },
+    {
+      "id": "cloud",
+      "name": "Cloud server",
+      "description": "A virtual private server.",
+      "publicKey": null,
+      "services": []
+    }
+  ]
+}

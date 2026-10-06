@@ -11,3 +11,4 @@ figure:
 
 - A Caddy reverse proxy and 5 Cloudflare Tunnels. I reach the server over Tailscale.
 - Gitea, n8n, MinIO object storage, SearXNG and 2 custom MCP servers, Home Assistant with MQTT, and Beszel monitoring.
+- Its live status is on the [Homelab page](/homelab).
