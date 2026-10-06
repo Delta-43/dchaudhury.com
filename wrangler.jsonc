@@ -15,5 +15,14 @@
       "binding": "HOMELAB",
       "id": "e58b0281913d4e70ad42d24c00727e9b"
     }
-  ]
+  ],
+  // Pull-request previews get their own, empty store, never production data.
+  "previews": {
+    "kv_namespaces": [
+      {
+        "binding": "HOMELAB",
+        "id": "f7739647ddad481cb39014dd343957cc"
+      }
+    ]
+  }
 }
