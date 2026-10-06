@@ -1,0 +1,65 @@
+---
+// A voxel portrait drawn as one SVG path per palette colour. Runs of the same
+// colour in a row merge into one rectangle; a grid of lines in the page
+// colour then cuts them back into separate voxels.
+//
+// This is the static version. On the home page, src/scripts/voxel-hero.ts
+// draws the same grid on a canvas and animates it; the SVG stays for layout,
+// for screen readers, and for anyone without JavaScript or with reduced motion.
+import portrait from '../data/voxel-portrait.json';
+
+interface Props {
+  class?: string;
+}
+
+const { cols, rows, cells, palette } = portrait as {
+  cols: number;
+  rows: number;
+  cells: string;
+  palette: Record<string, string>;
+};
+
+const paths: Record<string, string> = {};
+for (let y = 0; y < rows; y++) {
+  let x = 0;
+  while (x < cols) {
+    const key = cells[y * cols + x];
+    let run = 1;
+    while (x + run < cols && cells[y * cols + x + run] === key) run++;
+    if (key !== '.') paths[key] = `${paths[key] ?? ''}M${x} ${y}h${run}v1h-${run}z`;
+    x += run;
+  }
+}
+
+const id = 'voxel-portrait-grid';
+---
+
+<svg
+  class:list={['voxel-portrait', Astro.props.class]}
+  viewBox={`0 0 ${cols} ${rows}`}
+  preserveAspectRatio="xMinYMax meet"
+  role="img"
+  aria-labelledby="voxel-portrait-title"
+>
+  <title id="voxel-portrait-title">Voxel portrait of Debadeep Chaudhury</title>
+  <defs>
+    <pattern id={id} width="1" height="1" patternUnits="userSpaceOnUse">
+      <path d="M1 0V1M0 1H1" />
+    </pattern>
+  </defs>
+  {Object.entries(paths).map(([key, d]) => <path d={d} style={`fill: var(--${palette[key]})`} />)}
+  <rect width={cols} height={rows} fill={`url(#${id})`} />
+</svg>
+
+<style>
+  .voxel-portrait {
+    display: block;
+    shape-rendering: crispEdges;
+  }
+
+  pattern path {
+    stroke: var(--color-bg);
+    /* Half the stroke falls inside each 1 × 1 tile: a gap of about 1/6 of a voxel. */
+    stroke-width: 0.34;
+  }
+</style>

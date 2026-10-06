@@ -1,0 +1,66 @@
+---
+import { nav, site } from '../lib/site';
+
+const path = Astro.url.pathname.replace(/\.html$/, '').replace(/\/$/, '') || '/';
+const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`);
+---
+
+<header class="site-header wrap">
+  <a class="home" href="/" aria-current={path === '/' ? 'page' : undefined}>{site.name}</a>
+  <nav aria-label="Main">
+    <ul>
+      {
+        nav.map((item) => (
+          <li>
+            <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</header>
+
+<style>
+  .site-header {
+    view-transition-name: site-header;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0 var(--space-6);
+    padding-block: var(--space-3);
+  }
+
+  @media (min-width: 48rem) {
+    .site-header {
+      padding-block: var(--space-5);
+    }
+  }
+
+  a {
+    text-decoration-color: transparent;
+    display: inline-block;
+    padding-block: var(--space-2);
+  }
+
+  a:hover,
+  a[aria-current='page'] {
+    text-decoration-color: currentColor;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--space-4);
+  }
+
+  @media (min-width: 48rem) {
+    ul {
+      gap: 0 var(--space-5);
+    }
+  }
+</style>

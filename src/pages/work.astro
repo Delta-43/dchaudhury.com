@@ -1,0 +1,136 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const entries = await Promise.all(projects.map(async (project) => ({ project, ...(await render(project)) })));
+---
+
+<Base
+  title="Work"
+  description="Web apps and data pipelines by Debadeep Chaudhury: three 2026 hackathon placings, Warsaw in Numbers, an AI rules agent, a homelab and more."
+>
+  <div class="page-head wrap">
+    <h1>Work</h1>
+    <p class="lead">Web apps, data pipelines and tools from 2026. Each one says what I did, in which languages, and on what stack.</p>
+  </div>
+
+  <div class="wrap">
+    {
+      entries.map(({ project, Content }, index) => {
+        const { data } = project;
+        return (
+          <article class="project" aria-labelledby={project.id}>
+            <header class="project-head">
+              <p class="label muted">
+                {String(index + 1).padStart(2, '0')}
+                {data.dates && <> · {data.dates}</>}
+              </p>
+              <h2 id={project.id}>{data.title}</h2>
+              {data.event && <p class="label">{data.event}</p>}
+            </header>
+            <div class="project-body">
+              <p class="summary">{data.summary}</p>
+              <p>{data.role}</p>
+              <div class="details">
+                <Content />
+              </div>
+              {data.figure && (
+                <p class="figure">
+                  <span class="value">{data.figure.value}</span>
+                  <span class="muted">{data.figure.label}</span>
+                </p>
+              )}
+              {data.languages.length > 0 && (
+                <p class="languages">
+                  <span class="label muted">Languages</span> {data.languages.join(', ')}
+                </p>
+              )}
+              <ul class="stack label muted" aria-label="Stack">
+                {data.stack.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          </article>
+        );
+      })
+    }
+  </div>
+</Base>
+
+<style>
+  .project {
+    display: grid;
+    gap: var(--space-5);
+    padding-block: var(--space-7);
+    border-block-start: 1px solid var(--color-border);
+  }
+
+  .project-head {
+    display: grid;
+    align-content: start;
+    gap: var(--space-3);
+  }
+
+  h2 {
+    font-size: var(--text-2xl);
+    line-height: var(--text-2xl-line);
+    letter-spacing: var(--text-2xl-tracking);
+    overflow-wrap: anywhere;
+  }
+
+  .project-body {
+    display: grid;
+    gap: var(--space-4);
+    max-inline-size: var(--measure);
+  }
+
+  .summary {
+    font-size: var(--text-lg);
+    line-height: var(--text-lg-line);
+    letter-spacing: var(--text-lg-tracking);
+  }
+
+  .details :global(ul) {
+    padding-inline-start: 1.1em;
+    display: grid;
+    gap: var(--space-2);
+    color: var(--color-text-muted);
+  }
+
+  .figure {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-3);
+  }
+
+  .figure .value {
+    font-size: var(--text-xl);
+    line-height: var(--text-xl-line);
+    letter-spacing: var(--text-xl-tracking);
+  }
+
+  .stack {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-4);
+  }
+
+  .languages {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-3);
+  }
+
+  @media (min-width: 60rem) {
+    .project {
+      grid-template-columns: 4fr 8fr;
+      gap: var(--space-6);
+    }
+  }
+</style>

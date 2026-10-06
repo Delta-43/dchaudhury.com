@@ -1,0 +1,98 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+
+const items = (await getCollection('teaching')).sort((a, b) => a.data.order - b.data.order);
+const withContent = await Promise.all(items.map(async (item) => ({ item, ...(await render(item)) })));
+
+const groups = [
+  { id: 'teaching', title: 'Teaching and mentoring' },
+  { id: 'writing', title: 'Writing and editing' },
+  { id: 'certificates', title: 'Certificates' },
+] as const;
+
+const languages = [
+  { name: 'English', level: 'C2, full professional (EF SET)' },
+  { name: 'Bengali', level: 'Native' },
+  { name: 'Hindi', level: 'Native' },
+  { name: 'Polish', level: 'B1, limited working' },
+  { name: 'French', level: 'Elementary' },
+  { name: 'German', level: 'Elementary' },
+];
+---
+
+<Base
+  title="Teaching and writing"
+  description="Teaching and writing by Debadeep Chaudhury: the Guided Coding Workshop at 42 Warsaw, IGCSE Computer Science tutoring, intern supervision, genomics guides, an ebook, poetry and editing."
+>
+  <div class="page-head wrap">
+    <h1>Teaching and writing</h1>
+    <p class="lead">I explain technical things in plain words, in a room and on the page.</p>
+  </div>
+
+  <div class="wrap">
+    {
+      groups.map((group) => (
+        <section class="section" aria-labelledby={group.id}>
+          <h2 id={group.id}>{group.title}</h2>
+          <ul class="rows">
+            {withContent
+              .filter(({ item }) => item.data.group === group.id)
+              .map(({ item, Content }) => (
+                <li>
+                  {item.data.date && <p class="label muted">{item.data.date}</p>}
+                  <h3>{item.data.title}</h3>
+                  <p>{item.data.summary}</p>
+                  {item.body?.trim() && (
+                    <div class="muted">
+                      <Content />
+                    </div>
+                  )}
+                  {item.data.links.length > 0 && (
+                    <ul class="links">
+                      {item.data.links.map((link) => (
+                        <li>
+                          <a href={link.href}>
+                            {link.label}
+                            <Icon name={link.href.startsWith('/') ? 'arrow-right' : 'arrow-up-right'} />
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              ))}
+          </ul>
+        </section>
+      ))
+    }
+
+    <section class="section" aria-labelledby="languages">
+      <h2 id="languages">Languages</h2>
+      <dl class="languages">
+        {
+          languages.map((language) => (
+            <div>
+              <dt>{language.name}</dt>
+              <dd class="muted">{language.level}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .languages {
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+    gap: var(--space-4) var(--space-5);
+  }
+
+  .languages dd {
+    margin: 0;
+  }
+</style>

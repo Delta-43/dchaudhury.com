@@ -1,0 +1,57 @@
+---
+import contributions from '../data/contributions.json';
+
+interface Props {
+  rows?: number;
+}
+
+const { rows = 10 } = Astro.props;
+const counts = contributions.days.map(([, count]) => count);
+
+const format = (iso: string) =>
+  new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }).format(
+    new Date(`${iso}T00:00:00Z`),
+  );
+---
+
+<figure
+  class="voxel-field"
+  data-counts={JSON.stringify(counts)}
+  data-start={contributions.from}
+  data-rows={rows}
+  style={`--rows: ${rows}`}
+>
+  <canvas aria-hidden="true"></canvas>
+  <figcaption class="wrap label muted">
+    <span>My GitHub contributions, one column per day</span>
+    <span data-range>{format(contributions.from)} – {format(contributions.to)}</span>
+    <span>Taller columns mean more</span>
+    <span class="visually-hidden">
+      {contributions.total} contributions from {format(contributions.from)} to {format(contributions.to)}.
+    </span>
+  </figcaption>
+</figure>
+
+<script>
+  import { mountVoxelField } from '../scripts/voxel-field';
+
+  for (const root of document.querySelectorAll<HTMLElement>('.voxel-field')) mountVoxelField(root);
+</script>
+
+<style>
+  .voxel-field {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  canvas {
+    justify-self: center;
+    block-size: calc(var(--rows) * (var(--voxel) + 1px) - 1px);
+  }
+
+  figcaption {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-5);
+  }
+</style>

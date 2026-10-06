@@ -1,0 +1,348 @@
+---
+import Base from '../layouts/Base.astro';
+import VoxelField from '../components/VoxelField.astro';
+import VoxelPortrait from '../components/VoxelPortrait.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../lib/site';
+import portrait from '../data/voxel-portrait.json';
+
+const proof = [
+  {
+    value: '3',
+    text: 'hackathons in 2026, as team manager in all three: 3rd place, 1st in track, and top 10 in track.',
+    href: '/work',
+    link: 'See the work',
+  },
+  {
+    value: '5',
+    text: 'years of research programming: pipelines and databases for multi-terabyte sequencing data.',
+    href: '/research',
+    link: 'See the research',
+  },
+  {
+    value: '25',
+    text: 'Docker containers in 16 Docker Compose stacks, on the Ubuntu server I run at home.',
+    href: '/work#homelab',
+    link: 'See the homelab',
+  },
+];
+
+const languages = ['Python', 'TypeScript', 'JavaScript', 'SQL', 'C', 'R', 'Bash'];
+
+const tools = [
+  { label: 'Backend', items: ['FastAPI', 'REST', 'OpenAPI', 'Next.js', 'JWT and JWKS', 'SQLite'] },
+  { label: 'Frontend', items: ['React 19', 'Vite', 'Recharts', 'HTML', 'CSS'] },
+  { label: 'Data', items: ['PostgreSQL', 'PostGIS', 'Supabase', 'ETL pipelines', 'pandas', 'Snakemake'] },
+  { label: 'AI', items: ['Tool-calling agents', 'Retrieval-augmented generation', 'MCP servers', 'Ollama', 'n8n'] },
+  { label: 'Infrastructure', items: ['Docker', 'Linux', 'Caddy', 'Cloudflare Tunnel', 'Tailscale', 'GitHub Actions'] },
+];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.name,
+  url: site.url,
+  jobTitle: 'Independent Software Developer',
+  knowsAbout: [...languages, 'Data engineering', 'Web development'],
+  address: { '@type': 'PostalAddress', addressLocality: 'Warsaw', addressCountry: 'PL' },
+  sameAs: [site.profiles.linkedin, site.profiles.github, site.profiles.orcid],
+};
+---
+
+<Base
+  description="Debadeep Chaudhury builds web apps and data pipelines in Warsaw, in Python, TypeScript, SQL and more. Software development and data engineering."
+  jsonLd={jsonLd}
+>
+  <div class="stage">
+    <canvas class="voxel-sky" aria-hidden="true"></canvas>
+    <section class="hero wrap" aria-labelledby="name">
+      <div class="hero-text">
+        <h1 id="name">Debadeep<br />Chaudhury</h1>
+        <p class="tagline">Software and data engineering<br />Web apps for real-world data</p>
+        <p class="lead">I build web apps and data pipelines that answer real questions with real data.</p>
+        <ul class="proof">
+          {
+            proof.map((item) => (
+              <li>
+                <span class="value">{item.value}</span>
+                <div>
+                  <p>{item.text}</p>{' '}
+                  <a href={item.href}>
+                    {item.link}
+                    <Icon name="arrow-right" />
+                  </a>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+        <div class="actions">
+          <a class="button primary" href="/cv">Read my CV</a>
+          <a class="button" href="/contact">Get in touch</a>
+        </div>
+      </div>
+      <VoxelPortrait class="portrait" />
+    </section>
+  </div>
+
+  <VoxelField rows={8} />
+
+  <div class="wrap skills">
+    <section class="section" aria-labelledby="skills">
+      <h2 id="skills">Programming languages and tools</h2>
+      <div class="skills-body">
+        <ul class="languages" aria-label="Programming languages">
+          {languages.map((language) => <li>{language}</li>)}
+        </ul>
+        <p class="muted">Also C++ and Java, from training.</p>
+        <dl class="tools">
+          {
+            tools.map((group) => (
+              <div>
+                <dt class="label muted">{group.label}</dt>
+                <dd>{group.items.join(', ')}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+    </section>
+  </div>
+</Base>
+
+<script>
+  import { mountVoxelHero } from '../scripts/voxel-hero';
+
+  const stage = document.querySelector<HTMLElement>('.stage');
+  if (stage) mountVoxelHero(stage);
+</script>
+
+<style define:vars={{ cols: portrait.cols }}>
+  /* The field of voxels sits behind the hero and runs edge to edge. */
+  .stage {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .voxel-sky {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .hero {
+    display: grid;
+    gap: var(--space-6);
+    padding-block-start: var(--space-6);
+  }
+
+  .hero-text {
+    display: grid;
+    gap: var(--space-4);
+    align-content: start;
+    padding-block-end: var(--space-5);
+  }
+
+  h1 {
+    font-size: var(--text-4xl);
+    line-height: var(--text-4xl-line);
+    letter-spacing: var(--text-4xl-tracking);
+    text-transform: uppercase;
+  }
+
+  /* The system's justified two-line label. */
+  .tagline {
+    justify-self: start;
+    font-size: var(--text-sm);
+    line-height: var(--text-sm-line);
+    text-transform: uppercase;
+    text-align: justify;
+    text-align-last: justify;
+    hyphens: auto;
+  }
+
+  .lead {
+    font-size: var(--text-lg);
+    line-height: var(--text-lg-line);
+    letter-spacing: var(--text-lg-tracking);
+    max-inline-size: 30ch;
+    margin-block-start: var(--space-2);
+  }
+
+  .proof {
+    list-style: none;
+    padding: 0;
+    display: grid;
+  }
+
+  .proof li {
+    display: grid;
+    grid-template-columns: 2.75rem 1fr;
+    align-items: baseline;
+    gap: var(--space-3);
+    padding-block: var(--space-2);
+    border-block-start: 1px solid var(--color-border);
+  }
+
+  .value {
+    font-size: var(--text-lg);
+    line-height: var(--text-sm-line);
+    letter-spacing: var(--text-lg-tracking);
+  }
+
+  .proof li > div {
+    font-size: var(--text-sm);
+    line-height: var(--text-sm-line);
+  }
+
+  .proof p {
+    display: inline;
+    color: var(--color-text-muted);
+  }
+
+  .proof a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    white-space: nowrap;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .button {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 44px;
+    padding-inline: var(--space-5);
+    border: 1px solid var(--color-text);
+    background: var(--color-bg);
+    text-decoration: none;
+    transition:
+      background-color var(--duration-fast) ease,
+      color var(--duration-fast) ease,
+      transform 160ms var(--ease-out);
+  }
+
+  .button.primary {
+    background: var(--color-accent);
+    color: var(--color-accent-contrast);
+  }
+
+  .button:active {
+    transform: scale(0.96);
+  }
+
+  /* Touch screens fire a hover on tap, which would leave the colours swapped. */
+  @media (hover: hover) and (pointer: fine) {
+    .button:hover {
+      background: var(--color-accent);
+      color: var(--color-accent-contrast);
+    }
+
+    .button.primary:hover {
+      background: var(--color-bg);
+      color: var(--color-text);
+    }
+  }
+
+  /* The portrait stands on the voxel band and runs to the page edge. Its width
+     is a whole number of pixels per voxel, so the canvas copy stays crisp. */
+  .hero :global(.portrait) {
+    --pitch: 3px;
+    justify-self: start;
+    align-self: end;
+    inline-size: calc(var(--cols) * var(--pitch));
+    max-inline-size: none;
+    block-size: auto;
+    margin-inline-start: calc(-1 * var(--gutter));
+  }
+
+  /* Programming languages: the biggest type on the page after the name. */
+  .languages {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-5);
+    font-size: var(--text-2xl);
+    line-height: var(--text-2xl-line);
+    letter-spacing: var(--text-2xl-tracking);
+  }
+
+  .skills {
+    margin-block-start: var(--space-7);
+  }
+
+  .skills-body {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .tools {
+    margin: var(--space-4) 0 0;
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .tools div {
+    display: grid;
+    align-content: start;
+    gap: var(--space-1);
+  }
+
+  .tools dd {
+    margin: 0;
+  }
+
+  @media (min-width: 30rem) {
+    .hero :global(.portrait) {
+      --pitch: 4px;
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .lead {
+      font-size: var(--text-xl);
+      line-height: var(--text-xl-line);
+      letter-spacing: var(--text-xl-tracking);
+    }
+
+    .tools {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 60rem) {
+    .hero {
+      grid-template-columns: 1fr 1fr;
+      column-gap: var(--space-6);
+    }
+
+    .hero-text {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    .hero :global(.portrait) {
+      grid-column: 1;
+      grid-row: 1;
+    }
+  }
+
+  @media (min-width: 76rem) {
+    .hero :global(.portrait) {
+      --pitch: 5px;
+    }
+  }
+
+  @media (min-width: 100rem) {
+    .hero :global(.portrait) {
+      --pitch: 6px;
+    }
+  }
+</style>

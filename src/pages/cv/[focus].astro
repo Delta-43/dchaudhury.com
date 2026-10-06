@@ -1,0 +1,13 @@
+---
+import { getCollection } from 'astro:content';
+import CvView from '../../components/CvView.astro';
+
+export async function getStaticPaths() {
+  const focuses = await getCollection('cv');
+  return focuses.map((entry) => ({ params: { focus: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+---
+
+<CvView entry={entry} />

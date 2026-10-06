@@ -1,0 +1,103 @@
+---
+import Base from '../layouts/Base.astro';
+import Email from '../components/Email.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../lib/site';
+
+const profiles = [
+  { label: 'LinkedIn', href: site.profiles.linkedin, text: 'linkedin.com/in/dchaudhury', icon: 'linkedin' },
+  { label: 'GitHub', href: site.profiles.github, text: 'github.com/Delta-43', icon: 'github' },
+  { label: 'ORCID', href: site.profiles.orcid, text: '0000-0002-9089-732X', icon: 'arrow-up-right' },
+];
+---
+
+<Base
+  title="Contact"
+  footerContact={false}
+  description="Contact Debadeep Chaudhury by email or Discord. Profiles on LinkedIn, GitHub and ORCID. Based in Warsaw, Poland."
+>
+  <div class="page-head wrap">
+    <h1>Contact</h1>
+    <p class="lead">Email is the best way to reach me.</p>
+  </div>
+
+  <div class="wrap">
+    <dl class="contact">
+      <div>
+        <dt class="label muted">Email</dt>
+        <dd class="primary"><Email /></dd>
+      </div>
+      <div>
+        <dt class="label muted">Discord</dt>
+        <dd>{site.discord}</dd>
+      </div>
+      {
+        profiles.map((profile) => (
+          <div>
+            <dt class="label muted">{profile.label}</dt>
+            <dd>
+              <a href={profile.href}>
+                {profile.text}
+                <Icon name={profile.icon} />
+              </a>
+            </dd>
+          </div>
+        ))
+      }
+      <div>
+        <dt class="label muted">Location</dt>
+        <dd>{site.location}</dd>
+      </div>
+    </dl>
+  </div>
+</Base>
+
+<style>
+  .contact {
+    margin: 0;
+    display: grid;
+    border-block-start: 1px solid var(--color-border);
+  }
+
+  .contact > div {
+    display: grid;
+    gap: var(--space-2);
+    padding-block: var(--space-5);
+    border-block-end: 1px solid var(--color-border);
+  }
+
+  dd {
+    margin: 0;
+    font-size: var(--text-lg);
+    line-height: var(--text-lg-line);
+    overflow-wrap: anywhere;
+  }
+
+  dd.primary {
+    font-size: var(--text-xl);
+    line-height: var(--text-xl-line);
+    letter-spacing: var(--text-xl-tracking);
+  }
+
+  @media (min-width: 48rem) {
+    dd.primary {
+      font-size: var(--text-2xl);
+      line-height: var(--text-2xl-line);
+      letter-spacing: var(--text-2xl-tracking);
+    }
+  }
+
+  dd a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  @media (min-width: 60rem) {
+    .contact > div {
+      grid-template-columns: 4fr 8fr;
+      gap: var(--space-6);
+      align-items: baseline;
+    }
+  }
+</style>

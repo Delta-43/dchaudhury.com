@@ -1,0 +1,38 @@
+---
+// Lucide icons (ISC licence), copied from the design library into src/icons.
+const icons = import.meta.glob<string>('../icons/*.svg', {
+  query: '?raw',
+  import: 'default',
+  eager: true,
+});
+
+interface Props {
+  name: string;
+  class?: string;
+}
+
+const { name, class: className } = Astro.props;
+const svg = icons[`../icons/${name}.svg`];
+if (!svg) throw new Error(`Unknown icon: ${name}`);
+---
+
+<span class:list={['icon', className]} set:html={svg} />
+
+<style>
+  .icon {
+    display: inline-flex;
+    inline-size: 1em;
+    block-size: 1em;
+    flex: none;
+  }
+
+  .icon :global(svg) {
+    inline-size: 100%;
+    block-size: 100%;
+  }
+
+  /* Lucide ships a 2px stroke; 1.5px matches regular (400) text. */
+  .icon :global(svg *) {
+    stroke-width: 1.5;
+  }
+</style>

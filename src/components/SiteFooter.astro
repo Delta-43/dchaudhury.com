@@ -1,0 +1,152 @@
+---
+import Email from './Email.astro';
+import { site } from '../lib/site';
+
+interface Props {
+  showContact?: boolean;
+}
+
+const { showContact = true } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer wrap">
+  {
+    showContact && (
+  <div class="contact">
+    <p class="label muted">Get in touch</p>
+    <p class="big"><Email /></p>
+    <ul class="links">
+      <li><a href={site.profiles.linkedin}>LinkedIn</a></li>
+      <li><a href={site.profiles.github}>GitHub</a></li>
+      <li><a href={site.profiles.orcid}>ORCID</a></li>
+      <li><span class="muted">Discord</span> {site.discord}</li>
+    </ul>
+  </div>
+    )
+  }
+  <div class="meta">
+    <div class="theme" role="group" aria-label="Colour theme">
+      <button type="button" class="label" data-theme-set="auto" aria-pressed="true">Auto</button>
+      <button type="button" class="label" data-theme-set="light" aria-pressed="false">Light</button>
+      <button type="button" class="label" data-theme-set="dark" aria-pressed="false">Dark</button>
+    </div>
+    <p class="small muted">
+      © {year} {site.name} · {site.location} · <a href={site.repo}>Source code</a>
+    </p>
+  </div>
+</footer>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-theme-set]');
+  // Switch the theme with transitions off, so colours snap instead of
+  // fading one element at a time; restore them on the next frame.
+  const apply = (value: string) => {
+    const freeze = document.createElement('style');
+    freeze.textContent = '*,*::before,*::after{transition:none !important}';
+    document.head.append(freeze);
+    if (value === 'auto') delete document.documentElement.dataset.theme;
+    else document.documentElement.dataset.theme = value;
+    void document.body.offsetHeight;
+    requestAnimationFrame(() => freeze.remove());
+    for (const b of buttons) b.setAttribute('aria-pressed', String(b.dataset.themeSet === value));
+  };
+  let saved = 'auto';
+  try {
+    saved = localStorage.getItem('theme') ?? 'auto';
+  } catch {}
+  apply(saved);
+  for (const b of buttons) {
+    b.addEventListener('click', () => {
+      const value = b.dataset.themeSet ?? 'auto';
+      apply(value);
+      try {
+        if (value === 'auto') localStorage.removeItem('theme');
+        else localStorage.setItem('theme', value);
+      } catch {}
+    });
+  }
+</script>
+
+<style>
+  .site-footer {
+    display: grid;
+    gap: var(--space-7);
+    padding-block: 0 var(--space-6);
+    margin-block-start: var(--space-8);
+  }
+
+  /* The rule sits on the content, so it lines up with the page's hairlines. */
+  .site-footer > :first-child {
+    padding-block-start: var(--space-7);
+    border-block-start: 1px solid var(--color-border);
+  }
+
+  .contact {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .big {
+    font-size: var(--text-lg);
+    line-height: var(--text-lg-line);
+    letter-spacing: var(--text-lg-tracking);
+  }
+
+  @media (min-width: 48rem) {
+    .big {
+      font-size: var(--text-xl);
+      line-height: var(--text-xl-line);
+      letter-spacing: var(--text-xl-tracking);
+    }
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .meta a {
+    color: inherit;
+  }
+
+  .small {
+    font-size: var(--text-sm);
+    line-height: var(--text-sm-line);
+  }
+
+  .theme {
+    display: flex;
+    gap: var(--space-1);
+  }
+
+  .theme button {
+    min-block-size: 32px;
+    padding-inline: var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: 0;
+    background: transparent;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: transform 160ms var(--ease-out);
+  }
+
+  .theme button:active {
+    transform: scale(0.96);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .theme button:hover {
+      color: var(--color-text);
+    }
+  }
+
+  .theme button[aria-pressed='true'] {
+    background: var(--color-text);
+    border-color: var(--color-text);
+    color: var(--color-bg);
+  }
+</style>
