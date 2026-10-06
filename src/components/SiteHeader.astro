@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+import logo from '../assets/logo.png';
 import { nav, site } from '../lib/site';
 
 const path = Astro.url.pathname.replace(/\.html$/, '').replace(/\/$/, '') || '/';
@@ -6,7 +8,10 @@ const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`)
 ---
 
 <header class="site-header wrap">
-  <a class="home" href="/" aria-current={path === '/' ? 'page' : undefined}>{site.name}</a>
+  <a class="home" href="/" aria-current={path === '/' ? 'page' : undefined}>
+    <Image src={logo} alt="" width={32} height={32} densities={[1, 2, 3]} loading="eager" class="logo" />
+    <span>{site.name}</span>
+  </a>
   <nav aria-label="Main">
     <ul>
       {
@@ -27,7 +32,7 @@ const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`)
     view-transition-name: site-header;
     display: flex;
     flex-wrap: wrap;
-    align-items: baseline;
+    align-items: center;
     justify-content: space-between;
     gap: 0 var(--space-6);
     padding-block: var(--space-3);
@@ -43,6 +48,19 @@ const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`)
     text-decoration-color: transparent;
     display: inline-block;
     padding-block: var(--space-2);
+  }
+
+  /* The delta_43 mark: the same logo as on every profile, so it stays as is. */
+  .home {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .logo {
+    inline-size: 32px;
+    block-size: 32px;
+    flex: none;
   }
 
   a:hover,

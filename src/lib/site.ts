@@ -1,5 +1,6 @@
 export const site = {
   name: 'Debadeep Chaudhury',
+  handle: 'delta_43',
   url: 'https://dchaudhury.com',
   location: 'Warsaw, Poland',
   email: { user: 'contact', domain: 'dchaudhury.com' },
