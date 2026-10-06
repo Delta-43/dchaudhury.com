@@ -20,3 +20,7 @@ dist/
 .DS_Store
 .vscode/
 *.log
+
+# Check reports
+.lighthouseci/
+lychee-out.md

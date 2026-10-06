@@ -1,0 +1,30 @@
+name: Serve the built site
+description: Install dependencies, download the built site and serve it with the Worker on 127.0.0.1:8787.
+
+runs:
+  using: composite
+  steps:
+    - uses: pnpm/action-setup@v4
+    - uses: actions/setup-node@v5
+      with:
+        node-version-file: .node-version
+        cache: pnpm
+    - name: Install dependencies
+      shell: bash
+      run: pnpm install --frozen-lockfile
+    - uses: actions/download-artifact@v4
+      with:
+        name: dist
+        path: dist
+    - name: Start the Worker with the built site
+      shell: bash
+      env:
+        WRANGLER_SEND_METRICS: "false"
+      run: |
+        nohup pnpm exec wrangler dev --port 8787 --ip 127.0.0.1 > wrangler.log 2>&1 &
+        for i in $(seq 1 90); do
+          if curl -sf -o /dev/null http://127.0.0.1:8787/; then exit 0; fi
+          sleep 1
+        done
+        cat wrangler.log
+        exit 1

@@ -13,7 +13,9 @@
     "preview": "astro preview",
     "check": "astro check && tsc -p worker",
     "astro": "astro",
-    "contributions": "node scripts/fetch-contributions.mjs"
+    "contributions": "node scripts/fetch-contributions.mjs",
+    "check:pages": "node scripts/check-pages.mjs",
+    "check:lighthouse": "lhci autorun"
   },
   "dependencies": {
     "astro": "^7.3.5"
@@ -22,6 +24,9 @@
     "@astrojs/check": "^0.9.10",
     "@astrojs/sitemap": "^3.7.4",
     "@cloudflare/workers-types": "^5.20261005.1",
+    "@lhci/cli": "^0.15.1",
+    "axe-core": "^4.13.0",
+    "playwright": "^1.63.0",
     "sharp": "^0.35.5",
     "typescript": "^6.0.3",
     "wrangler": "^4.147.0"
