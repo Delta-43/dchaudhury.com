@@ -1,0 +1,204 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Icon from './Icon.astro';
+
+interface Props {
+  entry: CollectionEntry<'cv'>;
+  canonical?: string;
+}
+
+const { entry, canonical } = Astro.props;
+const focuses = (await getCollection('cv')).sort((a, b) => a.data.order - b.data.order);
+const { Content } = await render(entry);
+---
+
+<Base title={`CV: ${entry.data.label}`} description={entry.data.description} canonical={canonical}>
+  <div class="page-head wrap">
+    <h1>CV</h1>
+    <nav class="focus" aria-label="CV focus">
+      <ul>
+        {
+          focuses.map((focus) => (
+            <li>
+              <a
+                class="label"
+                href={`/cv/${focus.id}`}
+                aria-current={focus.id === entry.id ? 'page' : undefined}
+              >
+                {focus.data.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+
+  <div class="wrap">
+    <section class="section cv-intro" aria-labelledby="cv-title">
+      <div class="who">
+        <h2 id="cv-title">{entry.data.title}</h2>
+        <p class="label muted">Debadeep Chaudhury · Warsaw, Poland</p>
+      </div>
+      <div class="intro-body">
+        <p class="summary">{entry.data.summary}</p>
+        {
+          entry.data.pdf && (
+            <a class="download" href={`/cv/${entry.data.pdf}`} download>
+              <Icon name="download" />
+              Download PDF
+            </a>
+          )
+        }
+      </div>
+    </section>
+
+    <div class="cv">
+      <Content />
+    </div>
+  </div>
+</Base>
+
+<style>
+  /* The focus switch: mono uppercase toggles, like the system's L / M / S size switch. */
+  .focus ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+  }
+
+  .focus a {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 32px;
+    padding-inline: var(--space-3);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    text-decoration: none;
+  }
+
+  .focus a:hover {
+    color: var(--color-text);
+    border-color: var(--color-text);
+  }
+
+  .focus a[aria-current='page'] {
+    background: var(--color-text);
+    border-color: var(--color-text);
+    color: var(--color-bg);
+  }
+
+  .who {
+    display: grid;
+    gap: var(--space-3);
+    align-content: start;
+  }
+
+  .who h2 {
+    font-size: var(--text-xl);
+    line-height: var(--text-xl-line);
+    letter-spacing: var(--text-xl-tracking);
+  }
+
+  .intro-body {
+    display: grid;
+    gap: var(--space-4);
+    justify-items: start;
+  }
+
+  .summary {
+    font-size: var(--text-lg);
+    line-height: var(--text-lg-line);
+    letter-spacing: var(--text-lg-tracking);
+    max-inline-size: var(--measure);
+  }
+
+  .download {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-block-size: 44px;
+  }
+
+  /* Markdown body. On wide screens each h2 sits in the left column, beside
+     the entries that follow it. The hairline is split between the h2 and its
+     first neighbour, so the columns have no gap between them. */
+  .cv {
+    display: grid;
+  }
+
+  .cv :global(h2) {
+    font-size: var(--text-xl);
+    line-height: var(--text-xl-line);
+    letter-spacing: var(--text-xl-tracking);
+    padding-block: var(--space-7) var(--space-4);
+    border-block-start: 1px solid var(--color-border);
+  }
+
+  .cv :global(h3) {
+    font-size: var(--text-lg);
+    line-height: var(--text-lg-line);
+    letter-spacing: var(--text-lg-tracking);
+    margin-block-start: var(--space-5);
+  }
+
+  .cv :global(h2 + h3) {
+    margin-block-start: 0;
+  }
+
+  .cv :global(h3 + p) {
+    font-size: var(--text-sm);
+    line-height: var(--text-sm-line);
+    color: var(--color-text-muted);
+    margin-block: var(--space-1) var(--space-3);
+  }
+
+  /* Leave room before the next section's hairline. */
+  .cv > :global(:has(+ h2)) {
+    margin-block-end: var(--space-6);
+  }
+
+  .cv > :global(p + p) {
+    margin-block-start: var(--space-3);
+  }
+
+  .cv :global(:is(ul, ol)) {
+    padding-inline-start: 1.1em;
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  @media (min-width: 60rem) {
+    /* Same split as .section (4fr 8fr with a gap), so both columns line up. */
+    .cv {
+      grid-template-columns: calc((100% - var(--space-6)) / 3) 1fr;
+    }
+
+    /* Each entry fills its column, so hairlines reach the edge, but the
+       right padding keeps lines of text to a readable measure. */
+    .cv > :global(*) {
+      grid-column: 2;
+      padding-inline: var(--space-6) max(0px, 100% - var(--measure) - var(--space-6));
+    }
+
+    .cv > :global(:is(ul, ol)) {
+      padding-inline-start: calc(var(--space-6) + 1.1em);
+    }
+
+    /* Spanning a few rows stops a tall heading from stretching the first row. */
+    .cv > :global(h2) {
+      grid-column: 1;
+      grid-row: span 3;
+      align-self: start;
+      padding-inline: 0;
+    }
+
+    .cv > :global(h2 + *) {
+      padding-block-start: var(--space-7);
+      border-block-start: 1px solid var(--color-border);
+    }
+  }
+</style>

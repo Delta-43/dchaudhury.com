@@ -1,0 +1,26 @@
+---
+// The address never appears whole in the HTML. A small script builds the
+// mailto: link; readers without JavaScript see the spelled-out fallback.
+import { site } from '../lib/site';
+
+interface Props {
+  class?: string;
+}
+
+const { user, domain } = site.email;
+---
+
+<span class:list={['email', Astro.props.class]} data-email-user={user} data-email-domain={domain}
+  >{user} at {domain}</span
+>
+
+<script>
+  for (const el of document.querySelectorAll<HTMLElement>('[data-email-user]')) {
+    const address = `${el.dataset.emailUser}@${el.dataset.emailDomain}`;
+    const link = document.createElement('a');
+    link.href = `mailto:${address}`;
+    link.textContent = address;
+    link.className = el.className;
+    el.replaceWith(link);
+  }
+</script>

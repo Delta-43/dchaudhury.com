@@ -1,0 +1,106 @@
+---
+// A voxel portrait drawn as one SVG path per palette colour. Runs of the same
+// colour in a row merge into one rectangle; a grid of lines in the page
+// colour then cuts them back into separate voxels.
+import portrait from '../data/voxel-portrait.json';
+
+interface Props {
+  class?: string;
+}
+
+const { cols, rows, cells, palette } = portrait as {
+  cols: number;
+  rows: number;
+  cells: string;
+  palette: Record<string, string>;
+};
+
+const paths: Record<string, string> = {};
+for (let y = 0; y < rows; y++) {
+  let x = 0;
+  while (x < cols) {
+    const key = cells[y * cols + x];
+    let run = 1;
+    while (x + run < cols && cells[y * cols + x + run] === key) run++;
+    if (key !== '.') paths[key] = `${paths[key] ?? ''}M${x} ${y}h${run}v1h-${run}z`;
+    x += run;
+  }
+}
+
+const id = 'voxel-portrait-grid';
+---
+
+<svg
+  class:list={['voxel-portrait', Astro.props.class]}
+  style={`--rows: ${rows}`}
+  viewBox={`0 0 ${cols} ${rows}`}
+  preserveAspectRatio="xMaxYMax meet"
+  role="img"
+  aria-labelledby="voxel-portrait-title"
+>
+  <title id="voxel-portrait-title">Voxel portrait of Debadeep Chaudhury</title>
+  <defs>
+    <pattern id={id} width="1" height="1" patternUnits="userSpaceOnUse">
+      <path d="M1 0V1M0 1H1" />
+    </pattern>
+  </defs>
+  <g class="voxels">
+    {Object.entries(paths).map(([key, d]) => <path d={d} style={`fill: var(--${palette[key]})`} />)}
+    <rect width={cols} height={rows} fill={`url(#${id})`} />
+  </g>
+</svg>
+
+<script is:inline>
+  // The portrait builds up one voxel row at a time when it first comes into
+  // view. Runs before paint, so there's no flash; without JavaScript, or with
+  // reduced motion, it simply shows.
+  (() => {
+    const svg = document.currentScript.previousElementSibling;
+    if (!svg || !('IntersectionObserver' in window)) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    svg.dataset.reveal = 'wait';
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        observer.disconnect();
+        svg.dataset.reveal = 'run';
+      },
+      { threshold: 0.2 },
+    );
+    observer.observe(svg);
+  })();
+</script>
+
+<style>
+  .voxel-portrait {
+    display: block;
+    shape-rendering: crispEdges;
+  }
+
+  /* The clip goes on the inner group: a fully clipped SVG would never count
+     as visible to the IntersectionObserver. */
+  .voxel-portrait[data-reveal='wait'] .voxels {
+    clip-path: inset(100% 0 0 0);
+  }
+
+  /* One step per row, from the shoulders up. */
+  .voxel-portrait[data-reveal='run'] .voxels {
+    animation: voxel-portrait-build 1200ms steps(var(--rows), end) both;
+  }
+
+  @keyframes voxel-portrait-build {
+    from {
+      clip-path: inset(100% 0 0 0);
+    }
+
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+
+  pattern path {
+    stroke: var(--color-bg);
+    /* Half the stroke falls inside each 1 × 1 tile: a gap of 1/13 of a voxel, as in the band. */
+    stroke-width: 0.154;
+  }
+</style>

@@ -1,0 +1,164 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../lib/site';
+
+const byOrder = <T extends { data: { order: number } }>(a: T, b: T) => a.data.order - b.data.order;
+const publications = (await getCollection('publications')).sort(byOrder);
+const talks = (await getCollection('talks')).sort(byOrder);
+
+const ME = 'Chaudhury D';
+const splitAuthors = (authors: string) => {
+  const [before, after = ''] = authors.split(ME);
+  // Close the author list with one full stop, even when it ends in "et al."
+  return { before, after: after.endsWith('.') ? after : `${after}.` };
+};
+
+const awards = [
+  { title: "Director's Award for Distinguished Publication 2024", detail: 'Nencki Institute, Feb 2025, for the Cell Stem Cell paper' },
+  { title: 'Best Poster Award, Computational Neuroscience', detail: '12th Neuronus Neuroscience Forum, Jagiellonian University, Oct 2022' },
+  { title: 'Shri Rajagopal Memorial IT Wizard Gold Star Award 2018–2020', detail: 'IBAB, May 2021' },
+];
+---
+
+<Base
+  title="Research"
+  description="Research by Debadeep Chaudhury: 3 co-authored papers, 3 conference presentations and 5 years of research programming on multi-terabyte sequencing data."
+>
+  <div class="page-head wrap">
+    <h1>Research</h1>
+    <p class="lead">5 years of research programming as a bioinformatician, in Bengaluru, Berlin and Warsaw.</p>
+  </div>
+
+  <div class="wrap">
+    <section class="section" aria-labelledby="about">
+      <h2 id="about">The work</h2>
+      <div class="prose">
+        <p>
+          I was a Bioinformatician, Doctoral Researcher at the Nencki Institute in Warsaw (2021 – 2025). I compared
+          astrocytes, a kind of brain cell, grown from human, chimpanzee and rhesus macaque stem cells. The question was
+          how gene regulation and 3D genome organisation changed in human evolution.
+        </p>
+        <p>
+          I built the pipelines and in-house databases for multi-terabyte sequencing data, and a pipeline that separates
+          the data of several species grown together in one culture. I also supervised 4 interns.
+        </p>
+        <p>
+          Before that, I analysed yeast genomics data at JNCASR in Bengaluru (2020 – 2021). In Oct – Nov 2024 I was a
+          doctoral intern at the Max Planck Institute for Molecular Genetics in Berlin, integrating single-cell data across
+          species.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="papers">
+      <h2 id="papers">Papers</h2>
+      <ol class="rows">
+        {
+          publications.map(({ data }) => {
+            const { before, after } = splitAuthors(data.authors);
+            return (
+              <li>
+                <p class="label muted">
+                  {data.journal} · {data.year}
+                </p>
+                <h3>{data.title}</h3>
+                <p class="muted">
+                  {before}
+                  <span class="me">{ME}</span>
+                  {after} <i>{data.journal}</i>
+                  {data.volume && <> {data.volume}</>}.
+                </p>
+                {data.note && <p>{data.note}</p>}
+                {(data.doi || data.preprint) && (
+                  <ul class="links">
+                    {data.doi && (
+                      <li>
+                        <a href={`https://doi.org/${data.doi}`}>
+                          doi:{data.doi}
+                          <Icon name="arrow-up-right" />
+                        </a>
+                      </li>
+                    )}
+                    {data.preprint && (
+                      <li>
+                        <a href={data.preprint.href}>
+                          Preprint: {data.preprint.label}
+                          <Icon name="arrow-up-right" />
+                        </a>
+                      </li>
+                    )}
+                  </ul>
+                )}
+              </li>
+            );
+          })
+        }
+      </ol>
+    </section>
+
+    <section class="section" aria-labelledby="talks">
+      <h2 id="talks">Conference presentations</h2>
+      <ul class="rows">
+        {
+          talks.map(({ data }) => {
+            const { before, after } = splitAuthors(data.authors);
+            return (
+              <li>
+                <p class="label muted">
+                  {data.event} · {data.date}
+                </p>
+                <h3>{data.title}</h3>
+                <p class="muted">
+                  {before}
+                  <span class="me">{ME}</span>
+                  {after} {data.place}.
+                </p>
+                {data.award && <p>{data.award}</p>}
+              </li>
+            );
+          })
+        }
+      </ul>
+    </section>
+
+    <section class="section" aria-labelledby="awards">
+      <h2 id="awards">Awards</h2>
+      <ul class="rows">
+        {
+          awards.map((award) => (
+            <li>
+              <h3>{award.title}</h3>
+              <p class="muted">{award.detail}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="section" aria-labelledby="profiles">
+      <h2 id="profiles">Profiles</h2>
+      <ul class="links">
+        <li>
+          <a href={site.profiles.orcid}>ORCID <Icon name="arrow-up-right" /></a>
+        </li>
+        <li>
+          <a href={site.profiles.scholar}>Google Scholar <Icon name="arrow-up-right" /></a>
+        </li>
+      </ul>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .prose {
+    display: grid;
+    gap: var(--space-4);
+    max-inline-size: var(--measure);
+  }
+
+  .me {
+    color: var(--color-text);
+  }
+</style>

@@ -1,0 +1,227 @@
+---
+import Base from '../layouts/Base.astro';
+import VoxelField from '../components/VoxelField.astro';
+import VoxelPortrait from '../components/VoxelPortrait.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../lib/site';
+
+const proof = [
+  {
+    value: '3',
+    text: 'hackathons in 2026, as team manager in all three: 3rd place, 1st in track, and top 10 in track.',
+    href: '/work',
+    link: 'See the work',
+  },
+  {
+    value: '3',
+    text: 'co-authored papers, in Cell Stem Cell, Nature Cell Biology and Nature Communications.',
+    href: '/research',
+    link: 'See the research',
+  },
+  {
+    value: '12',
+    text: 'participants at the Guided Coding Workshop, which I designed and taught at 42 Warsaw.',
+    href: '/teaching',
+    link: 'See teaching and writing',
+  },
+];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.name,
+  url: site.url,
+  jobTitle: 'Software developer',
+  address: { '@type': 'PostalAddress', addressLocality: 'Warsaw', addressCountry: 'PL' },
+  sameAs: [site.profiles.linkedin, site.profiles.github, site.profiles.orcid],
+};
+---
+
+<Base
+  description="Debadeep Chaudhury builds software for messy, real data: from multi-terabyte sequencing datasets to city data APIs. Software, data, bioinformatics, teaching and writing, in Warsaw."
+  jsonLd={jsonLd}
+>
+  <section class="hero wrap" aria-labelledby="name">
+    <div class="hero-text">
+      <h1 id="name">Debadeep<br />Chaudhury</h1>
+      <p class="tagline">Software, data and bioinformatics<br />Teaching and writing in Warsaw</p>
+      <p class="lead">I build software for messy, real data: from multi-terabyte sequencing datasets to city data APIs.</p>
+      <ul class="proof">
+        {
+          proof.map((item) => (
+            <li>
+              <span class="value">{item.value}</span>
+              <div>
+                <p>{item.text}</p>{' '}
+                <a href={item.href}>
+                  {item.link}
+                  <Icon name="arrow-right" />
+                </a>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="actions">
+        <a class="button primary" href="/cv">Read my CV</a>
+        <a class="button" href="/contact">Get in touch</a>
+      </div>
+    </div>
+    <VoxelPortrait class="portrait" />
+  </section>
+
+  <VoxelField rows={8} />
+</Base>
+
+<style>
+  .hero {
+    display: grid;
+    gap: var(--space-6);
+    padding-block-start: var(--space-6);
+    isolation: isolate;
+  }
+
+  .hero-text {
+    display: grid;
+    gap: var(--space-4);
+    align-content: start;
+    padding-block-end: var(--space-5);
+  }
+
+  h1 {
+    font-size: var(--text-4xl);
+    line-height: var(--text-4xl-line);
+    letter-spacing: var(--text-4xl-tracking);
+    text-transform: uppercase;
+  }
+
+  /* The system's justified two-line label. */
+  .tagline {
+    justify-self: start;
+    font-size: var(--text-sm);
+    line-height: var(--text-sm-line);
+    text-transform: uppercase;
+    text-align: justify;
+    text-align-last: justify;
+    hyphens: auto;
+  }
+
+  .lead {
+    font-size: var(--text-lg);
+    line-height: var(--text-lg-line);
+    letter-spacing: var(--text-lg-tracking);
+    max-inline-size: 34ch;
+    margin-block-start: var(--space-2);
+  }
+
+  .proof {
+    list-style: none;
+    padding: 0;
+    display: grid;
+  }
+
+  .proof li {
+    display: grid;
+    grid-template-columns: 2.75rem 1fr;
+    align-items: baseline;
+    gap: var(--space-3);
+    padding-block: var(--space-2);
+    border-block-start: 1px solid var(--color-border);
+  }
+
+  .value {
+    font-size: var(--text-lg);
+    line-height: var(--text-sm-line);
+    letter-spacing: var(--text-lg-tracking);
+  }
+
+  .proof li > div {
+    font-size: var(--text-sm);
+    line-height: var(--text-sm-line);
+  }
+
+  .proof p {
+    display: inline;
+    color: var(--color-text-muted);
+  }
+
+  .proof a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    white-space: nowrap;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .button {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 44px;
+    padding-inline: var(--space-5);
+    border: 1px solid var(--color-text);
+    text-decoration: none;
+    transition:
+      background-color var(--duration-fast) ease,
+      color var(--duration-fast) ease,
+      transform 160ms var(--ease-out);
+  }
+
+  .button.primary {
+    background: var(--color-accent);
+    color: var(--color-accent-contrast);
+  }
+
+  .button:active {
+    transform: scale(0.96);
+  }
+
+  /* Touch screens fire a hover on tap, which would leave the colours swapped. */
+  @media (hover: hover) and (pointer: fine) {
+    .button:hover {
+      background: var(--color-accent);
+      color: var(--color-accent-contrast);
+    }
+
+    .button.primary:hover {
+      background: transparent;
+      color: var(--color-text);
+    }
+  }
+
+  /* The portrait stands on the voxel band and runs to the page edge.
+     It's an element inside VoxelPortrait, so it needs :global. */
+  .hero :global(.portrait) {
+    justify-self: end;
+    align-self: end;
+    inline-size: min(100%, 26rem);
+    block-size: auto;
+    margin-inline-end: calc(-1 * var(--gutter));
+    z-index: -1;
+  }
+
+  @media (min-width: 48rem) {
+    .lead {
+      font-size: var(--text-xl);
+      line-height: var(--text-xl-line);
+      letter-spacing: var(--text-xl-tracking);
+      max-inline-size: 30ch;
+    }
+  }
+
+  @media (min-width: 60rem) {
+    .hero {
+      grid-template-columns: 1fr 1fr;
+      column-gap: var(--space-6);
+    }
+
+    .hero :global(.portrait) {
+      inline-size: calc(100% + var(--gutter));
+      max-inline-size: 46rem;
+    }
+  }
+</style>

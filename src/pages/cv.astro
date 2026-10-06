@@ -1,0 +1,10 @@
+---
+import { getEntry } from 'astro:content';
+import CvView from '../components/CvView.astro';
+
+// /cv shows the default focus; search engines see /cv/software as the original.
+const entry = await getEntry('cv', 'software');
+if (!entry) throw new Error('Missing the software CV focus');
+---
+
+<CvView entry={entry} canonical="/cv/software" />
