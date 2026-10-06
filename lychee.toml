@@ -1,0 +1,15 @@
+# Link check for the built site (dist/**/*.html), run in CI against a local
+# server so that root-relative links like /work resolve as they do in production.
+
+max_retries = 3
+retry_wait_time = 5
+timeout = 20
+max_concurrency = 8
+
+# 429 means "slow down", not "gone".
+accept = ["200..=299", "429"]
+
+exclude = [
+  # LinkedIn answers every automated request with status 999.
+  '^https://(www\.)?linkedin\.com/',
+]

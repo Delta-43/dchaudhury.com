@@ -4,6 +4,7 @@ order: 2
 title: Data engineer and analyst
 description: CV of Debadeep Chaudhury, data engineer and analyst in Warsaw. Pipelines and databases for multi-terabyte sequencing data, and data APIs for city data.
 summary: I build pipelines and databases for messy, real data, and I say where each number comes from. 5 years of research programming on multi-terabyte sequencing data, then data APIs and ETL for city data in 2026.
+pdf: DChaudhury_CV_Data.pdf
 ---
 
 ## Experience

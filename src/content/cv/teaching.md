@@ -4,6 +4,7 @@ order: 4
 title: Teacher of computer science and science
 description: CV of Debadeep Chaudhury, teacher of computer science and science in Warsaw. Workshop instructor, IGCSE Computer Science tutor, intern supervisor and author of open genomics teaching guides.
 summary: I teach programming and science in plain words. I designed and taught a coding workshop for 12 people at 42 Warsaw, tutored 2 students in IGCSE Computer Science, supervised 4 research interns, and wrote open teaching guides for genomics.
+pdf: DChaudhury_CV_Teaching.pdf
 ---
 
 ## Teaching and mentoring

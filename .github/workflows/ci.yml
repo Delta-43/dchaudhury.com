@@ -8,16 +8,63 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
+    name: Check and build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v5
         with:
-          node-version: lts/*
+          node-version-file: .node-version
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm check
       - run: pnpm build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+          retention-days: 3
+
+  links:
+    name: Links
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ./.github/actions/serve-dist
+      - uses: lycheeverse/lychee-action@v2
+        with:
+          args: --config lychee.toml --base-url http://127.0.0.1:8787 --no-progress 'dist/**/*.html'
+          fail: true
+
+  accessibility:
+    name: Accessibility and third-party requests
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ./.github/actions/serve-dist
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: node scripts/check-pages.mjs
+
+  lighthouse:
+    name: Lighthouse
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ./.github/actions/serve-dist
+      - run: pnpm exec lhci autorun
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lighthouse-reports
+          path: .lighthouseci
+          retention-days: 14
