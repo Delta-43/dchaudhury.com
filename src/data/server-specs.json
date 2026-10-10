@@ -1,0 +1,263 @@
+{
+  "checked": "10 Oct 2026",
+  "build": "ADAX Delta W8PC4590ES",
+  "sections": [
+    {
+      "id": "processor",
+      "title": "Processor",
+      "origin": "fitted",
+      "name": "Intel Core i5-4590",
+      "note": "A 2014 design with four cores and no Hyper-Threading, so four threads in total. It has an integrated GPU that this server does not use.",
+      "rows": [
+        [
+          "Family",
+          "Haswell, 4th generation Intel Core"
+        ],
+        [
+          "Cores and threads",
+          "4 and 4"
+        ],
+        [
+          "Clock",
+          "3.3 GHz base, 3.7 GHz turbo"
+        ],
+        [
+          "Cache",
+          "6 MB shared L3"
+        ],
+        [
+          "Power",
+          "84 W thermal design power"
+        ],
+        [
+          "Socket",
+          "LGA1150"
+        ],
+        [
+          "Process",
+          "22 nm"
+        ],
+        [
+          "Memory support",
+          "DDR3-1600, two channels, 32 GB at most, no ECC"
+        ],
+        [
+          "Launched",
+          "Q2 2014. Intel discontinued it in July 2017"
+        ]
+      ]
+    },
+    {
+      "id": "motherboard",
+      "title": "Motherboard",
+      "origin": "original",
+      "name": "MSI B85M-E45",
+      "note": "A micro-ATX board on the Intel B85 chipset. It sets the limits for everything else here: 32 GB of DDR3 and one graphics slot.",
+      "rows": [
+        [
+          "Chipset",
+          "Intel B85"
+        ],
+        [
+          "Form factor",
+          "Micro-ATX"
+        ],
+        [
+          "Memory slots",
+          "4 × DDR3, two per channel"
+        ],
+        [
+          "Expansion",
+          "1 × PCIe 3.0 x16, 2 × PCIe 2.0 x1, 1 × PCI"
+        ],
+        [
+          "SATA",
+          "4 × 6 Gb/s and 2 × 3 Gb/s, 3 in use"
+        ],
+        [
+          "Network",
+          "Gigabit Ethernet (Realtek)"
+        ]
+      ]
+    },
+    {
+      "id": "memory",
+      "title": "Memory",
+      "origin": "fitted",
+      "name": "24 GB Goodram DDR3-1600",
+      "note": "Upgraded in October 2026. The two pairs of modules differ, so the last 8 GB runs on one channel only and has less bandwidth.",
+      "rows": [
+        [
+          "Modules",
+          "2 × 8 GB dual-rank in channel A, 2 × 4 GB single-rank in channel B"
+        ],
+        [
+          "Speed",
+          "1600 MT/s, CAS latency 11, 1.5 V"
+        ],
+        [
+          "Type",
+          "Unbuffered, non-ECC"
+        ],
+        [
+          "Bandwidth",
+          "Up to 25.6 GB/s across both channels"
+        ],
+        [
+          "Headroom",
+          "8 GB below the board's 32 GB limit"
+        ]
+      ],
+      "slots": [
+        {
+          "slot": "Channel A, slot 0",
+          "gb": 8,
+          "channel": "a"
+        },
+        {
+          "slot": "Channel A, slot 1",
+          "gb": 8,
+          "channel": "a"
+        },
+        {
+          "slot": "Channel B, slot 0",
+          "gb": 4,
+          "channel": "b"
+        },
+        {
+          "slot": "Channel B, slot 1",
+          "gb": 4,
+          "channel": "b"
+        }
+      ],
+      "slotsCaption": "Each cell is 1 GB. All four slots are full."
+    },
+    {
+      "id": "graphics",
+      "title": "Graphics",
+      "origin": "fitted",
+      "name": "Radeon R7 250, 2 GB",
+      "note": "A low-end card from Gigabyte (GV-R725OC-2GI, revision 3.0). Its memory is DDR3, not GDDR5. The monitor connects to it.",
+      "rows": [
+        [
+          "Chip",
+          "AMD Cape Verde, 28 nm, 512 stream processors"
+        ],
+        [
+          "Core clock",
+          "720 MHz"
+        ],
+        [
+          "Memory",
+          "2 GB DDR3, 128-bit bus, about 25.6 GB/s"
+        ],
+        [
+          "Interface",
+          "PCIe 3.0 x16"
+        ],
+        [
+          "Outputs",
+          "2 × DVI-D, HDMI, VGA"
+        ],
+        [
+          "Power",
+          "From the slot only"
+        ],
+        [
+          "Size",
+          "203 × 135 × 35 mm"
+        ]
+      ]
+    },
+    {
+      "id": "storage",
+      "title": "Storage",
+      "origin": "fitted",
+      "name": "876 GB across three drives",
+      "note": "Two SSDs and one laptop hard disk, all on SATA. The hard disk's link runs at 3 Gb/s because that is the drive's own limit.",
+      "rows": [
+        [
+          "PNY CS900",
+          "120 GB SSD, SATA III, 2.5 inch. Boot drive"
+        ],
+        [
+          "HS-SSD-E100",
+          "256 GB SSD, SATA III, 2.5 inch"
+        ],
+        [
+          "HGST Travelstar",
+          "500 GB hard disk, 5400 rpm, 8 MB cache, SATA II, 2.5 inch"
+        ]
+      ],
+      "drives": [
+        {
+          "name": "PNY CS900, 120 GB",
+          "gb": 120,
+          "tone": 1
+        },
+        {
+          "name": "HS-SSD-E100, 256 GB",
+          "gb": 256,
+          "tone": 2
+        },
+        {
+          "name": "HGST Travelstar, 500 GB",
+          "gb": 500,
+          "tone": 1
+        }
+      ],
+      "drivesCaption": "Each cell is about 10 GB of raw capacity."
+    },
+    {
+      "id": "power",
+      "title": "Power supply",
+      "origin": "original",
+      "name": "300 W Power Man",
+      "note": "An In Win unit rated 80 PLUS Bronze. The graphics card draws from the slot only, so it needs no extra power lead.",
+      "rows": [
+        [
+          "Brand",
+          "Power Man (In Win)"
+        ],
+        [
+          "Output",
+          "300 W, 80 PLUS Bronze"
+        ],
+        [
+          "+12 V rails",
+          "11 A and 8 A, 228 W combined"
+        ],
+        [
+          "+5 V and +3.3 V",
+          "103 W combined"
+        ]
+      ]
+    },
+    {
+      "id": "case",
+      "title": "Case",
+      "origin": "original",
+      "name": "Compact micro-ATX tower",
+      "note": "The case that came with the build. I haven't measured the clearance for longer cards.",
+      "rows": [
+        [
+          "Form factor",
+          "Micro-ATX tower"
+        ],
+        [
+          "Drive bays",
+          "Tool-less drive cage"
+        ],
+        [
+          "Cooling",
+          "Mesh side vent"
+        ],
+        [
+          "Power supply",
+          "Mounted at the top rear"
+        ]
+      ]
+    }
+  ],
+  "sources": "Read from the machine on 10 Oct 2026, and checked against the Intel, MSI and Gigabyte specification pages."
+}

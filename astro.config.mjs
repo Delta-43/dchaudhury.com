@@ -10,6 +10,9 @@ export default defineConfig({
   },
   integrations: [
     // /cv repeats /cv/software, so only the focus URLs go in the sitemap.
-    sitemap({ filter: (page) => page !== 'https://dchaudhury.com/cv' }),
+    // The hardware page is noindex, so it stays out too.
+    sitemap({
+      filter: (page) => !['https://dchaudhury.com/cv', 'https://dchaudhury.com/homelab/specs'].includes(page),
+    }),
   ],
 });
