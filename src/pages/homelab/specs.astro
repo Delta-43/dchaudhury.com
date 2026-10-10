@@ -1,0 +1,195 @@
+---
+import Base from '../../layouts/Base.astro';
+import specs from '../../data/server-specs.json';
+
+const originLabel = { original: 'Original to the build', fitted: 'Fitted by me' } as const;
+const cellGb = 10;
+---
+
+<Base
+  title="Homelab hardware specs"
+  description="The parts inside the home server, read from the machine."
+  noindex
+>
+  <div class="page-head wrap">
+    <h1>Homelab hardware specs</h1>
+    <p class="lead">
+      The home server is a prebuilt {specs.build} that I found abandoned. The motherboard, power supply and case are the
+      originals. I fitted the processor, graphics card, memory and drives myself.
+    </p>
+    <p class="label muted">Checked {specs.checked}</p>
+  </div>
+
+  <div class="wrap">
+    {
+      specs.sections.map((section) => (
+        <section class="section" aria-labelledby={`spec-${section.id}`}>
+          <div class="head">
+            <h2 id={`spec-${section.id}`}>{section.title}</h2>
+            <p class="label muted">{originLabel[section.origin as keyof typeof originLabel]}</p>
+            <p class="name">{section.name}</p>
+            <p class="muted note">{section.note}</p>
+          </div>
+          <div class="body">
+            <dl class="specs">
+              {section.rows.map(([term, value]) => (
+                <div>
+                  <dt class="label muted">{term}</dt>
+                  <dd>{value}</dd>
+                </div>
+              ))}
+            </dl>
+
+            {section.slots && (
+              <figure class="cells">
+                <ul class="rows-of-cells">
+                  {section.slots.map((slot) => (
+                    <li>
+                      <span class="label muted">{slot.slot}</span>
+                      <span class="grid" aria-hidden="true" data-channel={slot.channel}>
+                        {Array.from({ length: slot.gb }, () => (
+                          <i />
+                        ))}
+                      </span>
+                      <span class="label">{slot.gb} GB</span>
+                    </li>
+                  ))}
+                </ul>
+                <figcaption class="label muted">{section.slotsCaption}</figcaption>
+              </figure>
+            )}
+
+            {section.drives && (
+              <figure class="cells">
+                <ul class="rows-of-cells">
+                  {section.drives.map((drive) => (
+                    <li>
+                      <span class="label muted">{drive.name}</span>
+                      <span class="grid" aria-hidden="true" data-tone={drive.tone}>
+                        {Array.from({ length: Math.round(drive.gb / cellGb) }, () => (
+                          <i />
+                        ))}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+                <figcaption class="label muted">{section.drivesCaption}</figcaption>
+              </figure>
+            )}
+          </div>
+        </section>
+      ))
+    }
+
+    <section class="section" aria-labelledby="spec-sources">
+      <h2 id="spec-sources">Sources</h2>
+      <div class="prose">
+        <p>{specs.sources}</p>
+        <p>
+          The page is a snapshot. I plan more upgrades, so parts will change, and the date at the top says when I last
+          checked.
+        </p>
+        <p><a href="/homelab">Back to the homelab</a></p>
+      </div>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .head {
+    display: grid;
+    gap: var(--space-2);
+    align-content: start;
+  }
+
+  .name {
+    font-size: var(--text-lg);
+    line-height: var(--text-lg-line);
+    letter-spacing: var(--text-lg-tracking);
+    margin-block-start: var(--space-2);
+  }
+
+  .note {
+    max-inline-size: 40ch;
+  }
+
+  .body {
+    display: grid;
+    gap: var(--space-6);
+    min-inline-size: 0;
+  }
+
+  .specs {
+    display: grid;
+    margin: 0;
+  }
+
+  .specs > div {
+    display: grid;
+    gap: var(--space-1);
+    padding-block: var(--space-3);
+    border-block-end: 1px solid var(--color-border);
+  }
+
+  .specs > div:first-child {
+    padding-block-start: 0;
+  }
+
+  .specs > div:last-child {
+    border-block-end: 0;
+  }
+
+  .specs dd {
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+
+  @media (min-width: 40rem) {
+    .specs > div {
+      grid-template-columns: 12rem 1fr;
+      gap: var(--space-4);
+      align-items: baseline;
+    }
+  }
+
+  .cells {
+    display: grid;
+    gap: var(--space-3);
+    margin: 0;
+  }
+
+  .rows-of-cells {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .rows-of-cells li {
+    display: grid;
+    gap: var(--space-1);
+  }
+
+  .grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1px;
+  }
+
+  .grid :global(i) {
+    inline-size: var(--voxel);
+    block-size: var(--voxel);
+    background: var(--color-voxel-1);
+  }
+
+  .grid[data-channel='b'] :global(i),
+  .grid[data-tone='2'] :global(i) {
+    background: var(--color-voxel-2);
+  }
+
+  .prose {
+    display: grid;
+    gap: var(--space-4);
+    max-inline-size: var(--measure);
+  }
+</style>
