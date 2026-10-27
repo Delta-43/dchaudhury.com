@@ -10,6 +10,9 @@ stack: [FastAPI, SQLite, React 19, Vite, Recharts, GitHub Actions]
 figure:
   value: 3rd
   label: place at 42 Warsaw Hacks 2026
+demo:
+  href: https://delta-43.github.io/42-Warsaw-Hacks-ft-Riders/
+  note: A static build on synthetic data, with no student data.
 ---
 
 - Cache-first FastAPI and SQLite backend. Scheduled jobs sync with the 42 Intra API, and the dashboard falls back to the cache when the API is stale.

@@ -10,6 +10,9 @@ stack: [FastAPI, Pydantic, SQLite, OSRM, MCP, React 19, MapLibre GL JS, Docker C
 figure:
   value: "104"
   label: backend tests (pytest) for 7 API routes
+demo:
+  href: https://delta-43.github.io/1_ft_ddos_waw_open_data_hackathon/
+  note: A static build with fixtures, an offline map and 4 scenarios.
 ---
 
 - A language model through OpenRouter picks one of 6 predefined outings from the user's words, with a keyword fallback when no key is set. OSRM draws the street route, and a committed route cache keeps the demo working offline.

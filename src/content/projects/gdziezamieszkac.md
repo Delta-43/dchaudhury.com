@@ -10,6 +10,9 @@ stack: [FastAPI, PostgreSQL, PostGIS, React 19, OpenRouter, Docker]
 figure:
   value: "161"
   label: offline tests for the data API's 16 operations
+demo:
+  href: https://delta-43.github.io/GdzieZamieszkac/
+  note: A static build with labelled sample data.
 ---
 
 - PostgreSQL with PostGIS: 22 migrations, 47 of the 51 measures populated.
