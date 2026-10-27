@@ -1,6 +1,6 @@
 ---
 title: Pebble Index research agent
-order: 8
+order: 9
 dates: Aug – Sept 2026
 summary: Turns a voice note on a Pebble Index 01 ring into a researched, tagged note in Obsidian.
 role: My own project. I designed and built the workflow.

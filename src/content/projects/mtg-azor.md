@@ -1,6 +1,6 @@
 ---
 title: MTG Azor
-order: 5
+order: 6
 dates: Jul 2026 – present
 summary: "A self-hosted AI agent that answers Magic: The Gathering rules questions and checks every citation against its sources."
 role: My own project. I designed and built it.

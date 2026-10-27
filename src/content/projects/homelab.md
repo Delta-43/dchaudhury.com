@@ -1,6 +1,6 @@
 ---
 title: Homelab
-order: 6
+order: 7
 summary: An Ubuntu home server that runs my tools, demos and automation.
 role: I set it up and run it.
 stack: [Ubuntu 26.04 LTS, Docker Compose, Caddy, Cloudflare Tunnel, Tailscale, PostgreSQL 18, Ollama]

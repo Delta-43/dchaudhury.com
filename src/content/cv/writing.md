@@ -41,7 +41,7 @@ pdf: DChaudhury_CV_Writing.pdf
 
 Warsaw · Jan 2026 – present
 
-- My own software projects, and team manager at 3 hackathons in 2026. See the [Software CV](/cv/software).
+- My own software projects, and team manager at 4 hackathons in 2026. See the [Software CV](/cv/software).
 
 ### Bioinformatician, Doctoral Researcher, Nencki Institute of Experimental Biology
 

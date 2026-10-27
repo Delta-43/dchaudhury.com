@@ -1,6 +1,6 @@
 ---
 title: ft_WarsawStories
-order: 3
+order: 4
 dates: Aug 2026
 event: 42 Warsaw Hacks 2026 · 3rd place
 summary: A live community dashboard for 42 Warsaw.

@@ -1,6 +1,6 @@
 ---
 title: Warsaw in Numbers
-order: 2
+order: 3
 dates: Sept 2026 – present
 event: In progress
 summary: A web app to compare Warsaw's districts for renting or buying.
