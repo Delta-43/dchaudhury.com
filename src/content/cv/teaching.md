@@ -28,6 +28,13 @@ Sept 2026
 
 - Wrote open teaching guides and Snakemake pipelines for RNA-seq, ATAC-seq, ChIP-seq, Hi-C and scRNA-seq, with the reasoning behind each step. Every R block runs on public data.
 
+### Community organiser, Warsaw Geeks
+
+Warsaw · over 4 years
+
+- I run a board-game community of 100+ members. We meet every Friday, with 8 to 20 people each time.
+- I built the community's Discord bot in Python. It handles meetup sign-ups, reminders and onboarding for new members.
+
 ### Team manager, 4 hackathons
 
 2026
