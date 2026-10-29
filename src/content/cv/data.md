@@ -18,7 +18,7 @@ Warsaw · Jan 2026 – present
 - **Warsaw in Numbers** (in progress): compares city districts for renting or buying. Python ETL, Supabase PostgreSQL migrations, FastAPI. I coordinate a team of 3 with a locked `main` branch, pull request review and validation gates.
 - **ft_WarsawStories** (42 Warsaw Hacks 2026, 3rd place): a cache-first FastAPI and SQLite backend with scheduled sync jobs against the 42 Intra API and a stale-cache fallback. React 19 and Recharts frontend.
 - **Arbor** (Codaro Coding Challenge II, 1st in Track B, 2nd overall): a config-driven booking engine on Supabase PostgreSQL with row-level security. I managed the team of 5 and co-developed the backend with Alban Billiette.
-- **Homelab:** PostgreSQL 18, MinIO object storage and n8n automation on an Ubuntu server with 25 Docker containers.
+- **Homelab:** PostgreSQL 18, MinIO object storage and n8n automation on an Ubuntu server with 29 Docker containers.
 
 ### Bioinformatician, Doctoral Researcher, Nencki Institute of Experimental Biology
 
