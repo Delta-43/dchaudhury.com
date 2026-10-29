@@ -19,7 +19,9 @@ My own projects, alongside the 42 Warsaw core curriculum.
 - **Warsaw in Numbers** (in progress): a web app to compare city districts for renting or buying. I coordinate a team of 3 with a locked `main` branch, pull request review and validation gates. Python ETL, Supabase PostgreSQL migrations, FastAPI.
 - **Design library:** 17 design systems (all WCAG AA in both themes), a dashboard, a browser capture extension and an MCP connector with OAuth. Python, JavaScript, TypeScript.
 - **Pebble apps:** Delta Notes, a watch app in C and PebbleKit JS on the Pebble Appstore; and a research agent that turns voice notes from a Pebble Index 01 ring into Obsidian notes through n8n and MCP servers.
-- **Homelab:** an Ubuntu server with 25 Docker containers in 16 Docker Compose stacks, Caddy, Cloudflare Tunnels and Tailscale.
+- **Warsaw Geeks meetup bot:** a Python Discord bot, live for a community of 100+ members. Meetup events with sign-up buttons, a waitlist, reminders and calendar files, and an onboarding gate for new members. discord.py.
+- **rustic-pi dashboard:** a touch dashboard on a Raspberry Pi that watches my servers and controls my smart-home devices through Home Assistant. Python and pygame, drawn straight to the framebuffer.
+- **Homelab:** an Ubuntu server with 29 Docker containers in 19 Docker Compose stacks, Caddy, Cloudflare Tunnels and Tailscale.
 
 ### Hackathons, team manager in all four
 

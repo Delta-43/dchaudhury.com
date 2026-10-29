@@ -32,6 +32,7 @@
         { "id": "proxy", "label": "Reverse proxy and tunnels" },
         { "id": "azor", "label": "MTG Azor rules agent" },
         { "id": "azor-discord", "label": "MTG Azor Discord bot" },
+        { "id": "meetup-bot", "label": "Warsaw Geeks meetup bot" },
         { "id": "agents", "label": "AI agent memory and search" },
         { "id": "monitoring", "label": "Monitoring" }
       ]

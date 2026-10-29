@@ -1,6 +1,6 @@
 ---
 title: Delta Notes
-order: 10
+order: 13
 dates: Sept 2026
 summary: A Pebble watch app that sends dictated notes to Obsidian.
 role: My own project, written in C and PebbleKit JS.
