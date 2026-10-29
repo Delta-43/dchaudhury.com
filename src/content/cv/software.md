@@ -3,7 +3,7 @@ label: Software
 order: 1
 title: Software developer
 description: CV of Debadeep Chaudhury, software developer in Warsaw. AI agents, data APIs and full-stack web apps, plus 5 years of research programming.
-summary: I build software for messy, real data. In 2026 I managed three hackathon teams (3rd place, 1st in track, top 10 in track) and built my own AI agents, data APIs and a home server. Before that, I spent 5 years on research programming as a bioinformatician.
+summary: I build software for messy, real data. In 2026 I managed four hackathon teams (3rd place, 1st in track, top 10 in track twice) and built my own AI agents, data APIs and a home server. Before that, I spent 5 years on research programming as a bioinformatician.
 pdf: DChaudhury_CV_Software.pdf
 ---
 
@@ -21,10 +21,11 @@ My own projects, alongside the 42 Warsaw core curriculum.
 - **Pebble apps:** Delta Notes, a watch app in C and PebbleKit JS on the Pebble Appstore; and a research agent that turns voice notes from a Pebble Index 01 ring into Obsidian notes through n8n and MCP servers.
 - **Homelab:** an Ubuntu server with 25 Docker containers in 16 Docker Compose stacks, Caddy, Cloudflare Tunnels and Tailscale.
 
-### Hackathons, team manager in all three
+### Hackathons, team manager in all four
 
 2026
 
+- **Warsaw Open Data Hackathon 2026: top 10, Challenge 1 (Warsaw 2076).** Find YOUR way, a calm, guided walk through Warsaw on open data. I managed the team of 5 through GitHub issues and reviewed pull requests over 24 hours, and owned the architecture, API contract and integration. FastAPI backend with 104 pytest tests: OSRM street routing with an offline route cache, a language model that picks an outing from the user's words, a SQLite store of city layers and an MCP server for AI agents.
 - **HackYeah 2026: top 10, Artificial Intelligence track.** GdzieZamieszkać compares Kraków's 18 districts on 51 measures from public data. I coordinated the team of 3 and built the backend, data layer and city service: a FastAPI data API (16 operations, 161 offline tests), PostgreSQL with PostGIS (22 migrations), and language-model reports with a guard that drops any number not in the source facts.
 - **Codaro Coding Challenge II: 1st in Track B, 2nd overall.** Arbor, a config-driven booking engine. I managed the team of 5 and co-developed the backend with Alban Billiette. Next.js 14, FastAPI, Supabase PostgreSQL with row-level security, JWT verification through JWKS.
 - **42 Warsaw Hacks 2026: 3rd place.** ft_WarsawStories, a live community dashboard for 42 Warsaw. Cache-first FastAPI and SQLite backend with scheduled sync jobs, React 19 and TypeScript frontend, deployed with GitHub Actions.
@@ -58,11 +59,12 @@ Warsaw · Sept 2021 – Dec 2025
 ## Skills
 
 - **Programming languages:** Python, TypeScript, JavaScript, SQL, C, R, Bash; C++ and Java (training)
-- **Backend:** FastAPI, REST, OpenAPI, Next.js, JWT and JWKS authentication, SQLite
+- **Backend:** FastAPI, Pydantic, REST, OpenAPI, Next.js, JWT and JWKS authentication, SQLite
 - **Frontend:** React 19, Vite, Recharts, HTML and CSS
 - **Data:** PostgreSQL, PostGIS, Supabase (row-level security, migrations), ETL pipelines
-- **AI:** tool-calling agents, retrieval-augmented generation, MCP servers, OpenRouter, Ollama, n8n
-- **Infrastructure:** Docker, Linux (Ubuntu), Caddy, Cloudflare Tunnel, Tailscale, GitHub Actions, Railway, Vercel, Git
+- **Geo and open data:** OpenStreetMap, OSRM street routing, GeoJSON, GTFS timetables, MapLibre GL JS
+- **AI:** tool-calling agents, retrieval-augmented generation, MCP servers (including Streamable HTTP), OpenRouter, Ollama, n8n
+- **Infrastructure:** Docker, Linux (Ubuntu), Caddy, Cloudflare Tunnel, Cloudflare Access and WARP, Tailscale, DNS, GitHub Actions, Railway, Vercel, Git, Kubernetes (basic)
 
 ## Languages
 

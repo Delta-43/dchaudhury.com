@@ -18,7 +18,9 @@
         { "id": "home-automation", "label": "Home automation" },
         { "id": "library", "label": "E-book library" },
         { "id": "tools", "label": "PDF and bookmark tools" },
-        { "id": "playdate", "label": "Playdate build environment" }
+        { "id": "playdate", "label": "Playdate build environment" },
+        { "id": "code-editor", "label": "Browser code editor" },
+        { "id": "e-reader", "label": "E-reader companion" }
       ]
     },
     {

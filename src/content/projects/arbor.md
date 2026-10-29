@@ -1,6 +1,6 @@
 ---
 title: Arbor
-order: 4
+order: 5
 dates: Aug 2026
 event: Codaro Coding Challenge II · 1st in Track B, 2nd overall
 summary: A config-driven booking engine. A new niche needs only one JSON file and seed data.

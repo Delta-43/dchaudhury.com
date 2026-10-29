@@ -1,6 +1,6 @@
 ---
 title: GdzieZamieszkać
-order: 1
+order: 2
 dates: Oct 2026
 event: HackYeah 2026 · Top 10, Artificial Intelligence track
 summary: Compares Kraków's 18 districts on 51 measures from public data, with the source, date and caveat on every number.
@@ -10,9 +10,12 @@ stack: [FastAPI, PostgreSQL, PostGIS, React 19, OpenRouter, Docker]
 figure:
   value: "161"
   label: offline tests for the data API's 16 operations
+demo:
+  href: https://delta-43.github.io/GdzieZamieszkac/
+  note: A static build with labelled sample data.
 ---
 
 - PostgreSQL with PostGIS: 22 migrations, 47 of the 51 measures populated.
 - The city service writes district reports with a language model through OpenRouter. A guard drops any text that contains a number not in the source facts (31 tests).
 - React 19 and TypeScript frontend in Polish and English.
-- A hackathon prototype, not kept online. Warsaw in Numbers takes its place.
+- A hackathon prototype. Warsaw in Numbers takes its place.

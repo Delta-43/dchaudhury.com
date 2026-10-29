@@ -13,6 +13,7 @@ pdf: DChaudhury_CV_Data.pdf
 
 Warsaw · Jan 2026 – present
 
+- **Find YOUR way** (Warsaw Open Data Hackathon 2026, top 10 in Challenge 1): a guided walk through Warsaw on open data. I managed the team of 5 and built the FastAPI backend (104 pytest tests): a SQLite store of city layers with GeoJSON endpoints, OSRM street routing with an offline route cache, public transport from the ZTM Warsaw GTFS timetable, a 30-minute freshness guard for live feeds, and every number labelled real, estimated or simulated.
 - **GdzieZamieszkać** (HackYeah 2026, top 10 in the Artificial Intelligence track): compares Kraków's 18 districts on 51 measures from public data, with the source, date and caveat on every number. I coordinated the team of 3 and built the data layer: PostgreSQL with PostGIS (22 migrations, 47 of 51 metrics populated) and a FastAPI data API (16 operations, 161 offline tests). Language-model reports go through a guard that drops any text with a number not in the source facts.
 - **Warsaw in Numbers** (in progress): compares city districts for renting or buying. Python ETL, Supabase PostgreSQL migrations, FastAPI. I coordinate a team of 3 with a locked `main` branch, pull request review and validation gates.
 - **ft_WarsawStories** (42 Warsaw Hacks 2026, 3rd place): a cache-first FastAPI and SQLite backend with scheduled sync jobs against the 42 Intra API and a stale-cache fallback. React 19 and Recharts frontend.
@@ -53,7 +54,8 @@ Bengaluru · Aug 2020 – Jul 2021
 - **Data:** PostgreSQL, PostGIS, Supabase, SQLite, MongoDB, ETL pipelines, scheduled sync jobs, caching
 - **Analysis:** Python (pandas), R, Bioconductor, statistical modelling, clustering
 - **Pipelines:** Snakemake, Bash, Docker, GitHub Actions
-- **APIs:** FastAPI, REST, OpenAPI
+- **Geo and open data:** OpenStreetMap, OSRM, GeoJSON, GTFS timetables
+- **APIs:** FastAPI, Pydantic, REST, OpenAPI
 
 ## Languages
 

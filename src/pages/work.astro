@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
 
 const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
 const entries = await Promise.all(projects.map(async (project) => ({ project, ...(await render(project)) })));
@@ -8,7 +9,7 @@ const entries = await Promise.all(projects.map(async (project) => ({ project, ..
 
 <Base
   title="Work"
-  description="Web apps and data pipelines by Debadeep Chaudhury: three 2026 hackathon placings, Warsaw in Numbers, an AI rules agent, a homelab and more."
+  description="Web apps and data pipelines by Debadeep Chaudhury: four 2026 hackathon placings, Warsaw in Numbers, an AI rules agent, a homelab and more."
 >
   <div class="page-head wrap">
     <h1>Work</h1>
@@ -51,6 +52,15 @@ const entries = await Promise.all(projects.map(async (project) => ({ project, ..
                   <li>{item}</li>
                 ))}
               </ul>
+              {data.demo && (
+                <p class="demo">
+                  <a href={data.demo.href}>
+                    Try the demo
+                    <Icon name="arrow-up-right" />
+                  </a>{' '}
+                  <span class="muted">{data.demo.note}</span>
+                </p>
+              )}
             </div>
           </article>
         );

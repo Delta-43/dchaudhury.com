@@ -28,11 +28,11 @@ Sept 2026
 
 - Wrote open teaching guides and Snakemake pipelines for RNA-seq, ATAC-seq, ChIP-seq, Hi-C and scRNA-seq, with the reasoning behind each step. Every R block runs on public data.
 
-### Team manager, 3 hackathons
+### Team manager, 4 hackathons
 
 2026
 
-- Managed teams of 2, 3 and 5 people: 3rd place at 42 Warsaw Hacks, 1st in Track B and 2nd overall at Codaro Coding Challenge II, and top 10 in the Artificial Intelligence track at HackYeah 2026.
+- Managed teams of 2, 3 and 5 people: 3rd place at 42 Warsaw Hacks, 1st in Track B and 2nd overall at Codaro Coding Challenge II, top 10 in the Artificial Intelligence track at HackYeah 2026, and top 10 in Challenge 1 at the Warsaw Open Data Hackathon 2026.
 
 ## Experience
 

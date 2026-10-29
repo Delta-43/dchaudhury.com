@@ -16,6 +16,7 @@ Warsaw · Sept 2021 – Dec 2025 · Lab of Prof. Aleksandra Pękowska (Dioscuri 
 - Built pipelines (Python, R, Bash/Unix) and in-house databases to catalogue, process and analyse multi-terabyte next-generation sequencing data from human, chimpanzee and rhesus macaque iPSC-derived astrocytes.
 - Assays: RNA-seq, ATAC-seq, ChIP-seq, bisulphite-seq, MNase-seq, Hi-C and scRNA-seq; also MALDI-TOF data.
 - Built a pipeline to separate sequencing data from multiple species co-cultured in vitro.
+- Ran the work with cron jobs and on HPC clusters at Cornell University (US) and in Poznań.
 - Developed metrics to compare developmental stages of iPSC-derived astrocytes, and predictive algorithms for temporal expression patterns.
 - Analysed evolutionary changes in gene regulation and 3D genome organisation, and genes linked to neuropsychiatric disorders and early neural development.
 - Co-author of 3 papers. Director's Award for Distinguished Publication 2024.
@@ -39,7 +40,7 @@ Bengaluru · Aug 2020 – Jul 2021 · Lab of Prof. Kaustuv Sanyal
 Warsaw · Jan 2026 – present
 
 - **Functional Genomics Guides:** teaching guides and Snakemake pipelines for RNA-seq, ATAC-seq, ChIP-seq, Hi-C and scRNA-seq with a cross-species module. Every R block runs on public data (R 4.5, Bioconductor 3.22). The `rnaseq` and `chip_atac` pipelines run end to end on simulated data and recovered 40 of 40 simulated peaks.
-- Software projects and 3 hackathons as team manager (3rd place, 1st in track, top 10 in track). See the [Software CV](/cv/software).
+- Software projects and 4 hackathons as team manager (3rd place, 1st in track, top 10 in track twice). See the [Software CV](/cv/software).
 
 ## Publications
 

@@ -1,6 +1,6 @@
 ---
 title: Functional Genomics Guides
-order: 10
+order: 11
 dates: Sept 2026
 summary: Teaching guides and Snakemake pipelines for RNA-seq, ATAC-seq, ChIP-seq, Hi-C and scRNA-seq, with a cross-species module.
 role: I wrote the guides and the pipelines.
