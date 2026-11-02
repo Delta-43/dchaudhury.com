@@ -20,6 +20,7 @@ const projects = defineCollection({
     stack: z.array(z.string()),
     figure: z.object({ value: z.string(), label: z.string() }).optional(),
     demo: z.object({ href: z.url(), note: z.string() }).optional(),
+    code: z.object({ href: z.url(), note: z.string() }).optional(),
   }),
 });
 

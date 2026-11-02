@@ -10,6 +10,9 @@ stack: [ESP32-C3, no_std, esp-hal, Embassy, TLS 1.3, axum, SQLite, Docker]
 figure:
   value: 3,162
   label: simulated power cuts during writes, all recovered
+code:
+  href: https://github.com/Delta-43/rustinker-x3
+  note: Source, docs and releases on GitHub (MIT or Apache-2.0).
 ---
 
 - I send a web page, an email summary, a card token or a picture to a small Rust server at home. When I press Receive, the X3 joins Wi-Fi, pulls what is waiting, checks each item's SHA-256, saves it to the microSD card and turns Wi-Fi off.

@@ -61,6 +61,15 @@ const entries = await Promise.all(projects.map(async (project) => ({ project, ..
                   <span class="muted">{data.demo.note}</span>
                 </p>
               )}
+              {data.code && (
+                <p class="demo">
+                  <a href={data.code.href}>
+                    View the code
+                    <Icon name="arrow-up-right" />
+                  </a>{' '}
+                  <span class="muted">{data.code.note}</span>
+                </p>
+              )}
             </div>
           </article>
         );
