@@ -1,6 +1,6 @@
 ---
 title: pirust-kernel
-order: 15
+order: 16
 dates: Oct 2026
 event: Learning project
 summary: A lesson plan and guide for learning to build my own operating system for the Raspberry Pi, in Rust.

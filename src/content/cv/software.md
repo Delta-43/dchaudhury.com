@@ -21,6 +21,7 @@ My own projects, alongside the 42 Warsaw core curriculum.
 - **Pebble apps:** Delta Notes, a watch app in C and PebbleKit JS on the Pebble Appstore; and a research agent that turns voice notes from a Pebble Index 01 ring into Obsidian notes through n8n and MCP servers.
 - **Warsaw Geeks meetup bot:** a Python Discord bot, live for a community of 100+ members. Meetup events with sign-up buttons, a waitlist, reminders and calendar files, and an onboarding gate for new members. discord.py.
 - **rustic-pi dashboard:** a touch dashboard on a Raspberry Pi that watches my servers and controls my smart-home devices through Home Assistant. Python and pygame, drawn straight to the framebuffer.
+- **RustInker-X3:** open-source Rust firmware (`no_std`, ESP32-C3) that turns the Xteink X3 e-reader into an offline article reader and Magic: The Gathering token display, fed by my own Rust server (axum, SQLite, Docker). 220 host tests; 3,162 simulated power cuts during writes, all recovered.
 - **Homelab:** an Ubuntu server with 29 Docker containers in 19 Docker Compose stacks, Caddy, Cloudflare Tunnels and Tailscale.
 
 ### Hackathons, team manager in all four
