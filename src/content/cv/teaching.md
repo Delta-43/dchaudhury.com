@@ -30,7 +30,7 @@ Sept 2026
 
 ### Community organiser, Warsaw Geeks
 
-Warsaw · over 4 years
+Warsaw · Jan 2022 – present
 
 - I run a board-game community of 100+ members. We meet every Friday, with 8 to 20 people each time.
 - I built the community's Discord bot in Python. It handles meetup sign-ups, reminders and onboarding for new members.
